@@ -1,0 +1,7 @@
+<p> This will be the list with all products</p>
+
+<% @products.each do |f| %>
+    <p> Name:<%= f.name %>  <br />
+     Bar_code:<%= f.bar_code %>  <br />
+     Price:<%= f.price %> </p> 
+<% end %>
