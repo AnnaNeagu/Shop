@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'baskets/show'
   get 'cards/show'
   # get 'shops/index'
   # get 'shops/show'
@@ -6,11 +7,11 @@ Rails.application.routes.draw do
 
   resources :products, only:[:index, :show]
   resources :order_items
-  resource :cards, only:[:show]
+  resource :baskets, only:[:show]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # resources :products
   # Defines the root path route ("/")
   # root "articles#index"
-  root "shops#index"
+  root "products#index"
   # get "/products", to: "products#show"
 end
