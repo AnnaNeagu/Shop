@@ -64,9 +64,10 @@
 </nav>
 
 <div class= "container" >
-<h1 class="display-1" style="text-align:center;"><%= @product.name %> </h1>
+<h1 class="display-1" style="text-align:center;">Fresh products </h1>
+<%# <h1 class="display-1" style="text-align:center;"><%= @product.name %> </h1> 
 
-<article>
+
 
 
 
@@ -78,13 +79,13 @@
 <%# 
 <%= @product.description %>  
 
-</article>
 
 
 
-  <main id="main">
 
-    <section class="section">
+
+
+    <%# <section class="section">
       <div class="container">
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
@@ -92,45 +93,44 @@
             <p>This site contains high quality products at affordable prices.</p>
           </div>
         </div>
-      </div>
+      </div> %>
 
-      <div class="site-section pb-0">
-        <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-8" data-aos="fade-up">
-            <%= image_tag(@product.image, size: "800x450") %>
-              
+      
+       <section>
+        <div class="container"> 
+          <div class="row ">
+         
+            <div class="col-sm-6" >
+            <%= image_tag(@product.image, :class => "img-fluid")%>
             </div>
-            <div class="col-md-3 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-                <h3 class="h3">Description</h3>
-                <p class="mb-4"><span class="text-muted">About</span></p>
+            <div class="col-sm-6"  >
+            <p class="h4 mb-3" ><%= @product.name %> </p>
+              <p> <%= @product.description %>   </p>
+              
+              <h5 class="h4 mb-3">Price </h5>   <%= @product.price %> RON / KG 
 
-                <div class="mb-5">
-                  <%= @product.description %>  
-
-                </div>
-
-                <h4 class="h4 mb-3">PRET</h4>
-                <ul class="list-unstyled list-line mb-5">
-                <%= @product.price %> RON / KG
-                <%= @product.id %>
-                  <%# <li>Design</li>
-                  <li>HTML5/CSS3</li>
-                  <li>CMS</li>
-                  <li>Logo</li> %>
-                </ul>
-                  <%= form_for @order_item, remote: true do |a| %>
-                  <%= a.hidden_field :product_id, :value => @product.id %> 
-                  <%= a.number_field :quantity, :value =>1, :min => 1 %> 
-                  <%= a.submit "Add in Basket", :class => "btn btn-outline-secondary"  %> 
-                  <% end %>  
-                <%# <p><a href="#" class="readmore">Visit Website</a></p> %>
-              </div>
+               <p class="h4 mb-3" > Quantity</p>
+               <%= form_for @order_item, remote: true do |a|%>
+               <%= a.hidden_field :product_id, :value =>  @product.id %>
+               <%= a.number_field :quantity, :value =>1, :min => 1%> 
+               <%= a.submit "Add to basket"%>  
+               <% end %> 
+  </ul>
+</div>
+               
+               
             </div>
           </div>
-        </div>
-    </section>
+          </div>
+          </section>
+
+        
+  </div>
+</div>
+
+         
+        
+    
 
     <%# <!-- ======= Testimonials Section ======= -->
     <section class="section pt-0">
@@ -172,7 +172,7 @@
       </div>
     </section><!-- End Testimonials Section --> %>
 
-  </main><!-- End #main -->
+
 
 
 
@@ -182,7 +182,7 @@
 </html>
 
 
-<div id="card">
+<%# <div id="card">
   <%= render 'cards/card'%>
 
-</div>
+<%# </div>  %>
