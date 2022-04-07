@@ -13,7 +13,7 @@
           <a class="nav-link active" aria-current="page" href="/products">Products</a>
         </li>     
       </ul>           
-          <i class="fa-solid fa-basket-shopping fa-xl " ></i></a>     
+         <a href="/baskets"> <i class="fa-solid fa-basket-shopping fa-xl " ></i></a>     
     </div>
   </div>
 </nav>
@@ -21,10 +21,10 @@
 <h1 class="display-1" style="text-align:center;">Fresh products </h1>    
         <div class="container"> 
           <div class="row ">       
-            <div class="col-sm-6" >
+            <div class="col-sm-6">
             <%= image_tag(@product.image, :class => "img-fluid")%>
             </div>
-            <div class="col-sm-6"  >
+            <div class="col-sm-6">
             <p class="h4 mb-3" ><%= @product.name %> </p>
               <p> <%= @product.description %>   </p>          
               <h5 class="h4 mb-3">Price </h5>   <%= @product.price %> RON / KG 
@@ -37,8 +37,7 @@
               </div>               
            </div>
         </div>
-      </div>
-           
+      </div>       
   </div>
 </div>
 </body>

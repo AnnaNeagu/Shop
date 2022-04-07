@@ -1,5 +1,6 @@
 class OrderItemsController < ApplicationController
     
+
     def create
         @order = current_order
         @order_item = @order.order_items.new(order_params)
@@ -14,14 +15,17 @@ class OrderItemsController < ApplicationController
     #     @order_item = @order.order_items.find(params[:id])
     #     @order_item.update_attribute(order_params)
     #     @order_items = current_order.order_items
+    #     redirect_to baskets_show_path
     # end
 
-    # def destroy
-    #     @order = current_order
-    #     @order_item = @order.order_items.find(params[:id])
-    #     @order_item.destroy
-    #     @order_items = current_order.order_items
-    # end
+    def destroy
+        @order = current_order
+        @order_item = @order.order_items.find(params[:id])
+        @order_item.destroy
+        # byebug
+        
+        redirect_to baskets_show_path
+    end
 
     private
     def order_params
