@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # get 'shops/show'
   # resources :products
 
-  resources :products, only:[:index, :show]
+  resources :products, only:[:index, :show, :new, :create]
   resources :order_items, only:[:create, :destroy]
 
    
