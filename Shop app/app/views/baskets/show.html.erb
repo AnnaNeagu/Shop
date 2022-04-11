@@ -28,8 +28,12 @@
                             <%= form_for item do |f|%>
                             <%= f.hidden_field :product_id, :value => item.product.id %>
                             <%= f.number_field :quantity, :value => item.quantity.to_i %>
-                            <%= button_to "Remove", order_item_path(item), method: :delete %>
-                            <% end %>
+                            <%# <%= f.submit "Update"%> 
+                             <%= button_to "Delete", order_item_path(item), method: :delete %>
+                             <% end %>
+                           
+                            <%# <%= button_to "Update", order_item_path(item), method: :update%> 
+                           
                             <h2>Subtotal: <%= item.total%> </h2>
                         <% end %>
             </div>

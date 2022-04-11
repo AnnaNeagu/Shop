@@ -16,6 +16,16 @@
 
  }
 
+ /* _card.scss:41 */
+.card-title {
+  margin-bottom: $card-spacer-y;
+  color: green;
+}
+.card-text {
+  margin-bottom: $card-spacer-y;
+  color: green;
+}
+
 </style>
 <body style="background-color: #f3ead8">
       
@@ -47,11 +57,11 @@
 <h1 class="display-1" style="text-align:center;">Fresh products </h1>
 
 <article>
-  <div class="row row-cols-1 row-cols-md-3 g-4" style="text-align:center;" >
+  <div class="row row-cols-1 row-cols-md-3 g-6" style="text-align:center; " >
   <% @products.each do |f| %>
   <div class="col-4-lg">
     <div class="card " style="width:18rem;">
-    <%= link_to product_path(f)   do %>
+    <%= link_to product_path(f),  style: 'color:#FFFFFF;'   do %>
     <%# <img src="" class="card-img-top" > %>
     <%# <%= image_tag("apple.png", :class => "card-img-top") %> 
     <%= image_tag(f.image, :class => "card-img-top") %>
