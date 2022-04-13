@@ -11,7 +11,10 @@
       <ul class="navbar-nav me-auto topnav">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/products">Products</a>
-        </li>     
+        </li> 
+         <li class="nav-item">
+              <a href="/products/new"><i class="fa fa-plus fa-xl " ></i></a>
+       </li>     
       </ul>           
           <i class="fa-solid fa-basket-shopping fa-xl " ></i></a>     
     </div>
@@ -24,21 +27,33 @@
             <div class="col-sm-6" >             
                         <% @order_items.each do |item| %>
                             <h3><%= item.product.name %></h3>
-                            <h3><%= item.product.price %></h3>
+                            <h3><%= item.product.price %> RON</h3>
+                            <div class="col-sm-3">
                             <%= form_for item do |f|%>
-                            <%= f.hidden_field :product_id, :value => item.product.id %>
-                            <%= f.number_field :quantity, :value => item.quantity.to_i %>
+                            <%= f.hidden_field :product_id, :value => item.product.bar_code%>
+                            <%= f.number_field :quantity, :value => item.quantity.to_i, class:"form-control" %>
                             <%# <%= f.submit "Update"%> 
-                             <%= button_to "Delete", order_item_path(item), method: :delete %>
+                            <br />
+                             <%= button_to "Delete", order_item_path(item), method: :delete, class: "btn btn-outline-dark"  %>
                              <% end %>
-                           
+                           </div>
                             <%# <%= button_to "Update", order_item_path(item), method: :update%> 
                            
-                            <h2>Subtotal: <%= item.total%> </h2>
+                            <h2>Subtotal: <%= item.total%> RON </h2>
+                            <p>----------------------------------</p>
                         <% end %>
             </div>
             <div class="col-sm-6"  >
            <h3> Your current value has a total of: <%=current_order.subtotal %> RON </h3>
+                <div class=" col-sm-6">
+                    <label for="floatingInput">Discount</label>
+                    <input type="text" class="form-control"  placeholder="code discount">
+                    <%# <%= @discount %>
+                         <%# <%= text_field(@discount, :class => "form-control" )%>
+                    <br />
+                    <button type="button" class="btn btn-outline-dark">Apply</button>
+                </div>
+            
               </div>               
            </div>
         </div>
