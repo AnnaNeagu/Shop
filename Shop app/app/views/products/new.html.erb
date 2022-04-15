@@ -83,10 +83,11 @@
 <% end %>   
 <%
 =end%>
-<form class="row g-3 needs-validation" novalidate>
-<%= form_with(model: @product) do |form| %>
+<%# <form class="row g-3 needs-validation" novalidate> %>
+
+<%= form_with url: "/products", method: :post,  model: @product, html: {class: "row g-3 needs-validation", novalidate:true}  do |form| %>
   <div class="col-md-4">
-    <label for="validationCustom01" class="form-label">Name</label>
+     <%= form.label :name%>
     <%# <input type="text" class="form-control" id="validationCustom01"  required> %>
      <%= form.text_field(:name, :class => "form-control", required: true)  %>
     <div class="invalid-feedback">
@@ -94,16 +95,16 @@
     </div>
   </div>
   <div class="col-md-4">
-    <label for="validationCustom02" class="form-label">Bar code</label>
-     <%= form.text_field(:price, :class => "form-control", required:true)%> 
+    <%= form.label :bar_code%> 
+     <%= form.text_field(:bar_code, :class => "form-control", required: true)%> 
      <div class="invalid-feedback">
      Please enter a bar code.
     </div>
   </div>
   <div class="col-md-4">
-    <label for="validationCustomUsername" class="form-label">Price</label>
+   <%= form.label :price%>
     <div class="input-group has-validation">
-       <%= form.text_field(:price, :class => "form-control", required:true)%> 
+       <%= form.text_field(:price, :class => "form-control", required: true)%> 
       <%# <input type="text" class="form-control"  aria-describedby="inputGroupPrepend" required <%= form.text_field(:price)%>
       <span class="input-group-text" >RON</span>
 <div class="invalid-feedback">
@@ -113,14 +114,14 @@
     </div>
   </div>
   <div class="col-md-6">
-    <label for="validationCustom03" class="form-label">Image</label>
-    <%= form.file_field(:image, :class => "form-control", required:true )%> 
+   <%= form.label :image%>
+    <%= form.file_field(:image, :class => "form-control", required: true )%> 
     <div class="invalid-feedback">
      Please enter a image.
     </div>
   </div>
     <div class="col-md-6">
-    <label for="validationCustom03" class="form-label">Description</label>
+    <%= form.label :description%> 
      <%= form.text_area(:description, :class => "form-control")%> 
    
   </div>
@@ -129,8 +130,9 @@
         <%= form.submit(:class => "btn btn-dark")%>
     </div>
   <% end %>  
-</form>
- 
+  <%# </form> %>
+
+
 
 <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields
