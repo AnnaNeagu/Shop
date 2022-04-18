@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :products, only:[:index, :show, :new, :create]
   resources :order_items, only:[:create, :destroy, :update]
-
+  resources :discount
    
   resource :baskets, only:[:show]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

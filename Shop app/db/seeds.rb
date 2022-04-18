@@ -11,4 +11,18 @@
 # kivi = Product.create(name: "Kivi", bar_code: "shyddrg7", price: 3.2, image: "kivi.jpg")
 # peach = Product.create(name: "Peach", bar_code: "s98ddrg7", price: 5.5, image: "peach.jpg")
 
+Discount.create(name: "10% discount", code:"DISC10", percent:0.1)
+Discount.create(name: "15% discount", code:"DISC15", percent:0.15)
+Discount.create(name: "20% discount", code:"DISC20", percent:0.2)
+Discount.create(name: "25% discount", code:"DISC25", percent:0.25)
+Discount.create(name: "30% discount", code:"DISC30", percent:0.3)
+Discount.create(name: "35% discount", code:"DISC35", percent:0.35)
+Discount.create(name: "40% discount", code:"DISC40", percent:0.4)
+Discount.create(name: "45% discount", code:"DISC45", percent:0.45)
+Discount.create(name: "50% discount", code:"DISC50", percent:0.5)
+Discount.create(name: "55% discount", code:"DISC55", percent:0.55)
+Discount.create(name: "60% discount", code:"DISC60", percent:0.6)
+Discount.create(name: "65% discount", code:"DISC65", percent:0.65)
+Discount.create(name: "70% discount", code:"DISC70", percent:0.7)
+
 
