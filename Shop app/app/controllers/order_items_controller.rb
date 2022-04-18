@@ -1,5 +1,5 @@
 class OrderItemsController < ApplicationController
-    
+    # before_action :authenticate_user!
 
     def create
         @order = current_order
@@ -10,13 +10,25 @@ class OrderItemsController < ApplicationController
 
     end
 
+    def edit
+        @order = current_order
+        @order_item = @order.order_items.find(params[:id])
+    end
+
     def update
         @order = current_order
         @order_item = @order.order_items.find(params[:id])
-        @order_item.update_attribute(order_params)
-        @order_items = current_order.order_items
-        # redirect_to baskets_show_path
+
+        if @order_item.update(order_params)
+            @order_items = current_order.order_items
+            redirect_to baskets_show_path
+        else
+            render :edit, status: :unprocessable_entity
+        end
+       
+        
     end
+
 
     def destroy
         @order = current_order
