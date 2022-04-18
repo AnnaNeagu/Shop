@@ -245,7 +245,7 @@
                      <div class="col">
                         <h4><b>Basket</b></h4>
                      </div>
-                     <div class="col align-self-center text-right text-muted">3 items</div>
+                     <div class="col align-self-center text-right text-muted"><%= current_order.order_items.size%> Items</div>
                   </div>
                </div>
                <% @order_items.each do |item| %>
@@ -263,19 +263,32 @@
                         </div>
                         <%# <div class="row">Cotton T-shirt</div> %>
                      </div>
+                    
                      <div class="col">
-                        <%# <a href="#">-</a> %>
-                         <%= button_to "-", order_items_url(item), method: :update, class: "btn btn-dark btn-circle btn-s"  %>
-                         </div>
-                         <div class="col">
-                        <%# <a href="#" class="border"> %>
-                           <h3><%= item.quantity.to_i %></h3>
-                        </a>
+
+                     <%= form_for item do |a|%>
+                        <%= a.hidden_field :product_id, :value =>  item.product.id %>
+                        <%= a.number_field :quantity, :value => item.quantity , class:"form-control"%> <br />
                         </div>
                         <div class="col">
-                        <%= button_to "+", order_items_url(item), method: :update, class: "btn btn-dark btn-circle btn-s"  %>
+                        <%= a.submit("Update", :class => "btn btn-dark")  %>  
+                       
+                          
+                     <% end %> 
+
+                        <%# <a href="#">-</a> %>
+                         <%# <%= button_to "-", order_items(item), method: :update, class: "btn btn-dark btn-circle btn-s"  %>
+                         <%# </div>
+                         <div class="col">
+                        <%# <a href="#" class="border"> %>
+                           <%# <h3><%= item.quantity.to_i %></h3>
+                        <%# </a>
+                        </div>
+                        <div class="col"> %>
+                        <%# <%= button_to "+", order_items(item), method: :update, class: "btn btn-dark btn-circle btn-s"  %> 
                         
                      </div>
+                     
                      <div class="col">
                        <h3> <%= item.total%> RON </h3>
                       
@@ -307,7 +320,11 @@
                <hr>
                <div class="row">
                   <%# <div class="col" style="padding-left:0;">ITEMS 3</div> %>
-                  <div class="col text-right"><%=current_order.subtotal %> RON</div>
+
+                  <%# <div class="col text-right"><%=current_order.subtotal %> 
+                  <div id="basket">
+                  <%=  render 'baskets/basket'%>
+                  </div>
                </div>
                <form>
                   <p>SHIPPING</p>
