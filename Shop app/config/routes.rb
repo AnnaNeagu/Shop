@@ -7,9 +7,11 @@ Rails.application.routes.draw do
 
   resources :products, only:[:index, :show, :new, :create]
   resources :order_items, only:[:create, :destroy, :update]
-  resources :discount
+  
    
   resource :baskets, only:[:show]
+  resource :discount, only: :update
+  resolve("Discount") { route_for(:discount) }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # resources :products
   # Defines the root path route ("/")
