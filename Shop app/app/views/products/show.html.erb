@@ -91,13 +91,13 @@
             <div class="col-sm-6">
             <p class="h4 mb-3" ><%= @product.name %> </p>
               <p> <%= @product.description %>   </p>          
-              <h5 class="h4 mb-3">Price </h5>   <%= @product.price %> RON / KG 
+              <h5 class="h4 mb-3">Price</h5>   <%= @product.price %> RON / KG 
                <p class="h4 mb-3" > Quantity</p>
                 <div class="col-sm-3">
                <%= form_for @order_item do |a|%>
                <%= a.hidden_field :product_id, :value =>  @product.id %>
                <%= a.number_field :quantity, :value =>1, :min => 1, class:"form-control"%> <br />
-               <%= a.submit("Add to basket", :class => "btn btn-dark")  %>  
+               <%= a.submit("Add to basket", :class => "btn btn-dark")%>  
                </div>  
                <% end %> 
               </div>               

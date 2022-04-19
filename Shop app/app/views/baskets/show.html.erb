@@ -246,7 +246,6 @@
                      <div class="col">
                         <h4><b>Basket</b></h4>
                      </div>
-                     <div class="col align-self-center text-right text-muted"><%= current_order.order_items.size%> Items</div>
                   </div>
                </div>
                <% @order_items.each do |item| %>
@@ -254,7 +253,7 @@
                   <div class="row main align-items-center ">
                      <div class="col-2">
                         <% if item.product.image.attached?%>
-                           <%= image_tag(item.product.image, :class => "card-img-top")%>
+                        <%= image_tag(item.product.image, :class => "card-img-top")%>
                         <% end %>
                      </div>
                      <div class="col">
@@ -285,49 +284,40 @@
             </div>
             <div class="col-md-4 summary">
                <div>
-                  <h5><b>Summary</b></h5>
+                  <p> 
+                  <h5><b>ORDER</b></h5>
+                  ( <b><%= current_order.order_items.size%> Items</b>) </p>
                </div>
                <hr>
                <div class="row">
-                  <%# <div class="col" style="padding-left:0;">ITEMS 3</div> %>
                   <%# <div class="col text-right"><%=current_order.subtotal %> 
-                  <div id="basket">
+                  <%# <div id="basket">
                      <%=  render 'baskets/basket'%>
+                  <%# </div>  %>
+                  <div class="col text-right">
+                     <p> <b>TOTAL PRICE:  <%=current_order.subtotal %> RON </b> </p>
                   </div>
                </div>
-               <form>
-                  <p>SHIPPING</p>
-                  <select>
-                     <option class="text-muted">Standard-Delivery- RON 5.00</option>
-                  </select>
-                  <p>GIVE CODE</p>
-                  <%# <input id="code" placeholder="Enter your code"> %>
-                  <%# <%= form_with url: "/discount", method: :get,  model: @discount  do |form| %>
-                  <%# <%= form.label :code%>
-                  <%# <%= form.text_field(:code, :class => "form-control")  %>
-                  <%# <%= form.submit(:class => "btn btn-success", onclick: "console.log('Please wait....');")%>   
-                  <%# <% end %> 
-               <%# </form> %>
-                <input style="max-width: 75%;" id="voucher-input" placeholder="Voucher ?">
-                <button onclick="apply_discount(document.getElementById('voucher-input').value)" type="button" class="btn">Apply</button>
-
-                
+               <div class="col " style="border: 1px solid black">
+                  <p>DISCOUNT CODE</p>
+                  <input  id="voucher-input" placeholder="Enter the discount code">
+                  <button onclick="apply_discount(document.getElementById('voucher-input').value)" type="button" class="btn">Apply</button>
+               </div>
                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                  <div class="col">TOTAL PRICE</div>
-            <% if @discount %>
-              <div class="container" style="display: flex;justify-content: center;" >
-                <p class="card-text" style="padding-right: 10px;"><small><b>Discount:</b></small></p>
-                <p style="font-weight: bold;color: darkolivegreen;font-size: 16px;"><%= @discount.to_i * 100 %> %</p>
-              </div>
-              <div class="container" style="display: flex;justify-content: center;" >
-                <p class="card-text" style="padding-right: 10px;"><small><b>Final price:</b></small></p>
-                <% cut = @discount * current_order.subtotal %>
-                <% final_price = current_order.subtotal - cut %>
-               
-                <p style="font-weight: bold;color: darkolivegreen;font-size: 16px;"><%= number_with_delimiter(final_price.round(2), :delimiter => ',') %> RON</p>
-              </div>
-            <% end %>
-                  
+                  <% if @discount %>
+                  <%# <div class="container" style="display: flex;justify-content: center;"> %>
+                  <div class="col text-right">
+                     <p>DISCOUNT: <%= (@discount * 100).round(0) %> %</p>
+                  </div>
+                  <div class="col text-right">
+                     <p>FINAL PRICE:
+                        <% cut = @discount * current_order.subtotal %>
+                        <% final_price = current_order.subtotal - cut %>
+                        <b><%= number_with_delimiter(final_price.round(2), :delimiter => ',') %> RON
+                     </p>
+                     </b>
+                  </div>
+                  <% end %>
                </div>
                <button class="btn">CHECKOUT</button>
             </div>
