@@ -191,7 +191,6 @@
       color: white;
       width: 100%;
       font-size: 0.7rem;
-      margin-top: 4vh;
       padding: 1vh;
       border-radius: 0
       }
@@ -267,14 +266,14 @@
                         <%= a.hidden_field :product_id, :value =>  item.product.id %>
                         <%= a.number_field :quantity, :value => item.quantity , class:"form-control"%> 
                      </div>
-                     <div class="col ">
+                     <div class="col" style="margin-top: 40px;">
                         <%= a.submit("Update", :class => "btn btn-dark")%>    
                         <% end %> 
                      </div>
                      <div class="col">
                         <h3> <%= item.total%> RON </h3>
                      </div>
-                     <div class="col" style="margin-bottom: 40px;">
+                     <div class="col" >
                         <%= button_to "Delete", order_item_path(item), method: :delete, class: "btn btn-outline-dark"  %>
                      </div>
                   </div>
