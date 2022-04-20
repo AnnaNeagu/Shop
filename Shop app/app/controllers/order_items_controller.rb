@@ -26,11 +26,9 @@ class OrderItemsController < ApplicationController
         else
             render :edit, status: :unprocessable_entity
         end
-       
-        
+     
     end
-
-
+    
     def destroy
         @order = current_order
         @order_item = @order.order_items.find(params[:id])
