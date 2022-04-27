@@ -5,5 +5,5 @@ class Product < ApplicationRecord
     validates :name, presence: true
     validates :bar_code, presence: true
     validates :price, presence: true
-    validates :image, presence: true
+    
 end
