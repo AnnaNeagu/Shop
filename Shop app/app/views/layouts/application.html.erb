@@ -26,7 +26,10 @@
          <a href="/products" style="float: right;">Products</a>
         
         
-         <a class="active" style="color:black;">Welcome <strong><%= current_user.email %></strong> </a>
+         <a class="active" style="color:black;">Welcome 
+            <%= image_tag current_user.gravatar_url, :class => "gravatar", :style =>  "width: 20px;  height: 20px;  "%>
+            <strong><%= current_user.email %></strong> 
+        </a>
 
          <a href="/users/edit"  >Edit profile</i></a>
          <a href="/users/sign_out" >Logout</i></a>
