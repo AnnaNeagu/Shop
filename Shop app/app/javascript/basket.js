@@ -9,3 +9,16 @@ function apply_discount(code) {
     window.location.reload();
   });
 }
+
+function checkout(discount = 0) {
+  let data = {
+    percent: discount,
+  };
+  fetch("http://localhost:3000/baskets", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  }).then(() => {
+    window.location.replace("/");
+  });
+}

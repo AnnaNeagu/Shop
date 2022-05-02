@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_26_070554) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_28_102437) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -55,6 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_26_070554) do
     t.decimal "unit_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "user_id" name: "order_items_on_user_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -88,4 +89,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_26_070554) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+
+  # add_foreign_key "order_items", "users"
 end

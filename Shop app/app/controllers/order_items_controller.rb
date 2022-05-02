@@ -5,9 +5,18 @@ class OrderItemsController < ApplicationController
     def create
         @order = current_order
         @order_item = @order.order_items.new(order_params)
-        @order.save
-        session[:order_id] = @order.id
-        redirect_to baskets_show_path
+
+        @order_item.user_id = current_user.id
+        if @order.save
+            session[:order_id] = @order.id
+            # OrderItems.all.each do |order_items|
+            #     if order_items.order_id == OrderItems.last.order_id                   
+                    # OrderMailer.with(order_item: @order_item).new_order_email.deliver_now
+            # end
+            
+            flash[:success] = "Thank you for your order! We'll get contact you soon!"
+            redirect_to baskets_show_path
+        end 
 
     end
 
@@ -40,6 +49,6 @@ class OrderItemsController < ApplicationController
 
     private
     def order_params
-        params.require(:order_item).permit(:product_id, :quantity)
+        params.require(:order_item).permit!
     end
 end

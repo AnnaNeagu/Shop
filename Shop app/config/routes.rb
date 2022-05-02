@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :order_items, only:[:create, :destroy, :update]
   
    
-  resource :baskets, only:[:show]
+  resource :baskets, only:[:show, :create]
   resource :discount, only: :update
   resolve("Discount") { route_for(:discount) }
  

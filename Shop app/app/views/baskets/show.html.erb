@@ -283,7 +283,12 @@
                   </div>
                   <% end %>
                </div>
-               <button class="btn">CHECKOUT</button>
+              
+               <% if @discount%>
+                 <button onclick="checkout(<%= (@discount * 100).round(0) %>)" class="btn">CHECKOUT</button> 
+               <% else %>
+                  <button onclick="checkout()" class="btn">CHECKOUT</button> 
+               <% end %>
             </div>
          </div>
       </div>

@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <%# <p>You got a new order from <%= @user.email %> 
+    <p>
+    Order details<br>
+    --------------------------
+    </p>
+     <%total = 0%>
+     <% @order_item.each do |item|  %>
+     <% product = Product.find_by_id(item.product_id)%>
+    <p>Name: <%= product.name %> </p>
+    <p>Price:<%= item.unit_price %> </p>
+    <%# <p>Email: <%= @order_item.quantity %></p>
+    <%# <p>Address: <%= @order_item.total %></p>
+    <% total = total + product.price %>
+    <% end %>
+    <%= total%>
+    <%= @discount %>
+    <p>
+    Message:<br>
+    ----------
+    </p>
+    
+  </body>
+</html>
