@@ -12,27 +12,23 @@
      <% discount = 0, total = 0, subtotal=0 %>
      <% @order_item.each do |item|  %>
      <% product = Product.find_by_id(item.product_id)%>
-        <p>Name: <b><%= product.name %></b> </p>
-        <p>Price:<%= item.unit_price %> </p>
-        <p>Quantity:<%= item.quantity %> </p>
-        <p>Total price per product:<%=  item.total %> RON </p>
+        <p> <b><%= product.name %></b> <a style="margin-left:80px" > <%= item.unit_price %> RON</a></p> 
+        <p style = "margin-left:50px">  x <%= item.quantity %> <a style="margin-left:80px" > <%= item.total %> RON</a> </p>
         <%total =  item.order.total %>  
         <% if item.order.discount.nil? %>
         <%else%>
             <% discount =  item.order.discount.name %>
-            <%end%>
+        <%end%>
       <% subtotal=item.order.subtotal %>
     <% end %>
     
     
    <%if discount==[0,0,0]  %>
-    Total to pay <%= subtotal%> RON
-    
-    
-    <%else%>
       Total to pay <%= subtotal%> RON
-      Discount : <%= discount%>
-    Total to pay <%= total %> RON
+    <%else%>
+     <p><b> SUBTOTAL: <a style="margin-left:80px" > <%= subtotal%> RON </a></b> </p>
+     <p> Discount : <a style="margin-left:80px" >   <%= discount%>  </a></p>
+      <p><b> TOTAL TO PAY: <a style="margin-left:50px"> <%= total %> RON</a></b></p>
     <% end %>
     </p>
     

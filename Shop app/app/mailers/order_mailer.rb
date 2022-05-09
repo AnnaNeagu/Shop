@@ -15,7 +15,7 @@ class OrderMailer < ApplicationMailer
          end 
          
       # byebug
-        mail(to: @email, subject: "You got a new order!")
+        mail(to:  @email, subject: "You got a new order!")
           
       end
 end

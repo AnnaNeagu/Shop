@@ -15,28 +15,21 @@ class BasketsController < ApplicationController
   end
 
   def create
-  
+    @order_items = current_order.order_items
     @order = Order.find_by_id(session[:order_id])
     if @order
       # unless session[:discount_code].present?
         @discount = Discount.find_by(code: session[:discount_code]) 
         @order.discount = @discount
         @order.save
+        
       # end
       #  @order.calculate_total()
     end
-   
     # byebug
-
-
-    # puts "$" *20
-    # puts params
-    # puts @order_items
-    # puts @discount
-    # puts "$" *20
-    
     OrderMailer.with(order_item: @order_items).new_order_email.deliver_now
-      
+    
+   
   end
 
   private
