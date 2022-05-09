@@ -8,20 +8,27 @@
     Order details<br>
     --------------------------
     </p>
+   
      <%total = 0%>
+     <%subtotal = 0%>
+     <% price = 0%>
+     <%discount = 0%>
      <% @order_item.each do |item|  %>
      <% product = Product.find_by_id(item.product_id)%>
-    <p>Name: <%= product.name %> </p>
-    <p>Price:<%= item.unit_price %> </p>
-    <%# <p>Email: <%= @order_item.quantity %></p>
-    <%# <p>Address: <%= @order_item.total %></p>
-    <% total = total + product.price %>
+        <p>Name: <b><%= product.name %></b> </p>
+        <p>Price:<%= item.unit_price %> </p>
+        <p>Quantity:<%= item.quantity %> </p>
+        <p>Total price per product:<%= price = item.quantity * item.unit_price %> </p>
+        <% total = total + price %>
+       
+       <p> Discount from order : <%= item.order.discount.name %> </p>
     <% end %>
-    <%= total%>
-    <%= @discount %>
+       
+    <%# <% byebug %>
+    <b> Total to pay <%= total%> </b> 
     <p>
-    Message:<br>
-    ----------
+    <%# Message:<br>
+    ---------- %>
     </p>
     
   </body>

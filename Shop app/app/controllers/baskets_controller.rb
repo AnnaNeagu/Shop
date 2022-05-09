@@ -1,22 +1,46 @@
 class BasketsController < ApplicationController
 
+
+  def mail_with_order
+    @order_items = current_order.order_items
+
+  end
   def show
     @order_items = current_order.order_items
     
     if session[:discount]
       @discount = session[:discount]
-      session.delete(:discount)    
+      # session.delete(:discount)    
     end  
   end
 
   def create
-    @order_items = current_order.order_items
-    OrderMailer.with(order_item: @order_items, discount: discount_param).new_order_email.deliver_now
-   end
+  
+    @order = Order.find_by_id(session[:order_id])
+    if @order
+      # unless session[:discount_code].present?
+        @discount = Discount.find_by(code: session[:discount_code]) 
+        @order.discount = @discount
+        @order.save
+      # end
+      # @order.calculate_total()
+    end
+   
+    byebug
 
-   private
+
+    # puts "$" *20
+    # puts params
+    # puts @order_items
+    # puts @discount
+    # puts "$" *20
+    
+    OrderMailer.with(order_item: @order_items).new_order_email.deliver_now
+      
+  end
+
+  private
       def discount_param
-        params.require(:basket).permit(:percent)
+        params.require(:discount).permit(:code)
       end
-
 end

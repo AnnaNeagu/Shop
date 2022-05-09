@@ -12,7 +12,7 @@ function apply_discount(code) {
 
 function checkout(discount = 0) {
   let data = {
-    percent: discount,
+    discount: discount,
   };
   fetch("http://localhost:3000/baskets", {
     method: "POST",

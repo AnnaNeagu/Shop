@@ -5,7 +5,9 @@ class DiscountsController < ApplicationController
     
         if discount
           session[:discount] = discount[0].percent
+          session[:discount_code] = discount[0].code
         end
+        byebug
       end
     
       private

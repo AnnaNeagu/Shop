@@ -7,6 +7,7 @@ class OrderItemsController < ApplicationController
         @order_item = @order.order_items.new(order_params)
 
         @order_item.user_id = current_user.id
+        
         if @order.save
             session[:order_id] = @order.id
             # OrderItems.all.each do |order_items|

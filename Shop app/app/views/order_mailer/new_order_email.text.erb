@@ -1,10 +1,25 @@
-<%# You got a new order from <%= @order_items.current_user.id  %>! %>
-===============================================
+
 
 Order Details:
 --------------------------
-<%# 
-   Name: <%= @order_item.product_id %>
-   <%# Email: <%= @order_item.quantity %> 
-   <%# Address: <%= @order_item.total %> 
+ 
+   <%total = 0%>
+     <%subtotal = 0%>
+     <%price = 0%>
+     <% @order_item.each do |item|  %>
+     <% product = Product.find_by_id(item.product_id)%>
+     <%= product.name %> 
+          Price:<%= item.unit_price %> RON
+          Quantity:<%= item.quantity %> 
+          Total price per product:<%= price = item.quantity * item.unit_price %> RON
+    <% total = total + price %> 
+    <%# <% discount = item.discount_percentage %>  
+      Discount : <%= item.order.discount.name %>
+    <% end %>
+  
+    <%# <% byebug %> 
+   
+    
+                                       Total to pay <%= total%> RON
+    
 
