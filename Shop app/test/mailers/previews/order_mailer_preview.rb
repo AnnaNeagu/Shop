@@ -6,6 +6,6 @@ class OrderMailerPreview < ActionMailer::Preview
         @order_items = current_order.order_items
         
         @discount = params[:discount]
-        OrderMailer.with(order_item: @order_items, total_price: current_order.total, discount: @discount).new_order_email 
+        OrderMailer.with(order_item: @order_items).new_order_email 
       end
 end

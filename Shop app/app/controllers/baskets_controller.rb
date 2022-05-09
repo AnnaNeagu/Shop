@@ -10,7 +10,7 @@ class BasketsController < ApplicationController
     
     if session[:discount]
       @discount = session[:discount]
-      # session.delete(:discount)    
+      #session.delete(:discount)    
     end  
   end
 
@@ -23,10 +23,10 @@ class BasketsController < ApplicationController
         @order.discount = @discount
         @order.save
       # end
-      # @order.calculate_total()
+      #  @order.calculate_total()
     end
    
-    byebug
+    # byebug
 
 
     # puts "$" *20

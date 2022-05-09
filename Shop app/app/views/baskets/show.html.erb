@@ -275,9 +275,10 @@
                   </div>
                   <div class="col text-right">
                      <p>FINAL PRICE:
-                        <% cut = @discount * current_order.subtotal %>
-                        <% final_price = current_order.subtotal - cut %>
-                        <b><%= number_with_delimiter(final_price.round(2), :delimiter => ',') %> RON
+                        <%# <% cut = @discount * current_order.subtotal %> 
+                        <%# <% final_price = current_order.subtotal - cut %> 
+                        <% final_price = current_order.subtotal-current_order.subtotal * @discount  %>
+                        <b><%= number_with_delimiter(final_price, :delimiter => ',') %> RON
                      </p>
                      </b>
                   </div>

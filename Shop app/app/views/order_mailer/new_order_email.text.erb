@@ -3,23 +3,34 @@
 Order Details:
 --------------------------
  
-   <%total = 0%>
-     <%subtotal = 0%>
-     <%price = 0%>
+  
+     <% discount = 0, total = 0, subtotal=0 %>
      <% @order_item.each do |item|  %>
      <% product = Product.find_by_id(item.product_id)%>
      <%= product.name %> 
           Price:<%= item.unit_price %> RON
           Quantity:<%= item.quantity %> 
-          Total price per product:<%= price = item.quantity * item.unit_price %> RON
-    <% total = total + price %> 
+          Total price:<%= item.total %> RON
+    <%total =  item.order.total %> 
     <%# <% discount = item.discount_percentage %>  
-      Discount : <%= item.order.discount.name %>
+    <% if item.order.discount.nil? %>
+    
+        <%else%>
+        <% discount =  item.order.discount.name %>
+            
+            <%end %>
+      <%subtotal=item.order.subtotal%>
+
     <% end %>
-  
-    <%# <% byebug %> 
-   
+
+   <%if discount==[0,0,0]  %>
+    Total to pay <%= subtotal%> RON
     
-                                       Total to pay <%= total%> RON
     
+    <%else%>
+      Total to pay <%= subtotal%> RON
+      Discount : <%= discount%>
+    Total to pay <%= total %> RON
+    <% end %>
+
 
