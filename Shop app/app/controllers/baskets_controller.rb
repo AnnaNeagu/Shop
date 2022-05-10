@@ -11,11 +11,14 @@ class BasketsController < ApplicationController
     if session[:discount]
       @discount = session[:discount]
       #session.delete(:discount)    
+      
     end  
+
+    
   end
 
   def create
-    @order_items = current_order.order_items
+    
     @order = Order.find_by_id(session[:order_id])
     if @order
       # unless session[:discount_code].present?
@@ -27,6 +30,7 @@ class BasketsController < ApplicationController
       #  @order.calculate_total()
     end
     # byebug
+    @order_items = current_order.order_items
     OrderMailer.with(order_item: @order_items).new_order_email.deliver_now
     
    

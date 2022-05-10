@@ -232,7 +232,8 @@
                         <%= a.number_field :quantity, :value => item.quantity , class:"form-control"%> 
                      </div>
                      <div class="col" style="margin-top: 40px;">
-                        <%= a.submit("Update", :class => "btn btn-dark")%>    
+                        <%= a.submit("Update", :class => "btn btn-dark", :onClick => "window.location.reload();")%>   
+                          
                         <% end %> 
                      </div>
                      <div class="col">

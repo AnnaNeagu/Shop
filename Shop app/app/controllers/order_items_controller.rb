@@ -29,10 +29,12 @@ class OrderItemsController < ApplicationController
     def update
         @order = current_order
         @order_item = @order.order_items.find(params[:id])
-
+      
         if @order_item.update(order_params)
             @order_items = current_order.order_items
-            redirect_to baskets_show_path
+
+               
+            redirect_to baskets_path
         else
             render :edit, status: :unprocessable_entity
         end
