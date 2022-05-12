@@ -1,36 +1,78 @@
 <html>
-  <head>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  </head>
-  <body>
-    <%# <p>You got a new order from <%= @user.email %> 
-    <p>
-    Order details<br>
-    --------------------------
-    </p>
-   
-     <% discount = 0, total = 0, subtotal=0 %>
-     <% @order_item.each do |item|  %>
-     <% product = Product.find_by_id(item.product_id)%>
-        <p> <b><%= product.name %></b> <a style="margin-left:80px" > <%= item.unit_price %> RON</a></p> 
-        <p style = "margin-left:50px">  x <%= item.quantity %> <a style="margin-left:80px" > <%= item.total %> RON</a> </p>
-        <%total =  item.order.total %>  
-        <% if item.order.discount.nil? %>
-        <%else%>
-            <% discount =  item.order.discount.name %>
-        <%end%>
-      <% subtotal=item.order.subtotal %>
-    <% end %>
-    
-    
-   <%if discount==[0,0,0]  %>
-      Total to pay <%= subtotal%> RON
-    <%else%>
-     <p><b> SUBTOTAL: <a style="margin-left:80px" > <%= subtotal%> RON </a></b> </p>
-     <p> Discount : <a style="margin-left:80px" >   <%= discount%>  </a></p>
-      <p><b> TOTAL TO PAY: <a style="margin-left:50px"> <%= total %> RON</a></b></p>
-    <% end %>
-    </p>
-    
-  </body>
+   <head>
+      <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+   </head>
+   <body>
+      <%# <p>You got a new order from <%= @user.email %> 
+      <p>
+         Order details<br>
+         --------------------------
+      </p>
+      <table>
+         <% discount = 0, total = 0, subtotal=0 %>
+         <% @order_item.each do |item|  %>
+         <% product = Product.find_by_id(item.product_id)%>
+         <tr>
+            <td>  <b><%= product.name %></b> </td>
+            <td>
+               <p style = "margin-left:50px"> </p>
+            </td>
+            <td> <%= item.unit_price %> RON</a>  </td>
+         </tr>
+         <tr>
+            <td> x <%= item.quantity %> </td>
+            <td>
+               <p style = "margin-left:50px"> </p>
+            </td>
+            <td>  <%= item.total %> RON </td>
+            <%total =  item.order.total %>  
+         </tr>
+         <% if item.order.discount.nil? %>
+         <%else%>
+         <% discount =  item.order.discount.name %>
+         <%end%>
+         <% subtotal=item.order.subtotal %>
+         <% end %>
+         <tr>
+            <td>
+               <p style = "margin-left:50px">
+            </td>
+         </tr>
+         <%if discount==[0,0,0]  %>
+         <tr style="margin-top:30px">
+            <b>
+               TOTAL :</td> 
+               <td>
+                  <p style = "margin-left:50px">
+               </td>
+               <td> <%= subtotal %> RON
+            </b>
+            </td>
+         </tr>
+         <%else%>
+         <tr >
+            <td>
+               <b>
+                  SUBTOTAL : 
+            </td>
+            <td><p style = "margin-left:50px"></td> <td><%= subtotal%> RON </b>  </td>
+         </tr>
+         <tr>
+            <td>
+               Discount : 
+            </td>
+            <td>
+               <p style = "margin-left:50px">
+            </td>
+            <td> <%= discount%>  </td>
+         <tr>
+            <td>
+               <b>
+                  TOTAL :
+            </td>
+            <td><p style = "margin-left:50px"></td> <td> <%= total %> RON</b></td>
+      </table>
+      <% end %>
+      </p>
+   </body>
 </html>

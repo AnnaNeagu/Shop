@@ -240,7 +240,7 @@
                         <h3> <%= item.total%> RON </h3>
                      </div>
                      <div class="col" >
-                        <%= button_to "Delete", order_item_path(item), method: :delete, class: "btn btn-outline-dark"  %>
+                        <%= button_to "Delete", order_item_path(item), method: :delete, class: "btn btn-outline-dark", :onClick => "window.location.reload();"  %>
                      </div>
                   </div>
                </div>
