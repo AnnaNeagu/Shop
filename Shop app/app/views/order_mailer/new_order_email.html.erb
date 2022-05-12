@@ -5,13 +5,34 @@
    <body>
       <%# <p>You got a new order from <%= @user.email %> 
       <p>
-         Order details<br>
-         --------------------------
+        Order details 
       </p>
+      
       <table>
          <% discount = 0, total = 0, subtotal=0 %>
          <% @order_item.each do |item|  %>
          <% product = Product.find_by_id(item.product_id)%>
+         <tr> 
+          
+
+               <td>Guid
+               </td> 
+               <td> </td>
+               <td><%= item.order.guid %>  </td>
+               
+               
+         </tr>
+           <tr> 
+          
+
+               <td>Time
+               </td> 
+               <td> </td>
+               <td><%= item.order.created_at.strftime(" %m/%d/%Y, %I:%M%p")%>  </td>
+               
+               
+         </tr>
+         <tr ><td colspan="3">----------------------------------------------------------</td></tr>
          <tr>
             <td>  <b><%= product.name %></b> </td>
             <td>
@@ -26,6 +47,7 @@
             </td>
             <td>  <%= item.total %> RON </td>
             <%total =  item.order.total %>  
+            
          </tr>
          <% if item.order.discount.nil? %>
          <%else%>
@@ -40,8 +62,8 @@
          </tr>
          <%if discount==[0,0,0]  %>
          <tr style="margin-top:30px">
-            <b>
-               TOTAL :</td> 
+            
+             <td> <b> TOTAL :</td> 
                <td>
                   <p style = "margin-left:50px">
                </td>

@@ -7,7 +7,8 @@ class OrderItemsController < ApplicationController
         @order_item = @order.order_items.new(order_params)
 
         @order_item.user_id = current_user.id
-        
+        # @order.guid = SecureRandom.uuid.truncate(20)
+        @order.guid = SecureRandom.uuid
         if @order.save
             session[:order_id] = @order.id
             # OrderItems.all.each do |order_items|

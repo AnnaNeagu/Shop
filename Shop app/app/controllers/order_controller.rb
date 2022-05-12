@@ -1,5 +1,6 @@
 class OrderController < ApplicationController
 
+    
     def send_email
         @order_items = current_order.order_items
         @discount = session[:discount]
@@ -8,6 +9,6 @@ class OrderController < ApplicationController
     end
 
     def create
-         
+        
     end
 end
