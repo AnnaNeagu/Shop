@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  
     def index
         @products = Product.all
         # @order_item = current_order.order_items.new
@@ -8,6 +9,11 @@ class ProductsController < ApplicationController
       def show
         @product =  Product.find(params[:id])
         @order_item = current_order.order_items.new
+
+        respond_to do |format|
+          format.html
+          format.json
+        end
       end
 
 
@@ -17,7 +23,10 @@ class ProductsController < ApplicationController
 
       def create
         @product = Product.new(product_params)
+        
+
         if @product.save
+         
           redirect_to @product
         else
            render :new, status: :unprocessable_entity

@@ -17,4 +17,11 @@ Rails.application.routes.draw do
  
   root "products#index"
  
+  namespace :apis do
+    namespace :products do
+      namespace :v1 do
+        resources :products
+      end
+    end
+  end
 end
