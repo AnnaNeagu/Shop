@@ -5,22 +5,29 @@
       <div class="row row-cols-1 row-cols-md-3 g-6" style="text-align: center">
         <div v-for="product in products" :key="product.id">
           <div class="col-4-lg">
-            <div class="card" style="width: 18rem">
-              <p class="card-img-top">{{ product.image }}</p>
-              <router-link
-                :to="{ name: 'Product', params: { id: product.id } }"
-              >
+            <router-link
+              style="text-decoration: none; color: inherit"
+              :to="{ name: 'Product', params: { id: product.id } }"
+            >
+              <div class="card" style="width: 18rem">
+                <h1 v-if="product.image !== null">
+                  <img class="card-img-top" v-bind:src="product.image" />
+                </h1>
+                <h1 v-else>
+                  <img class="card-img-top" src="@/assets/fresh.jpg" />
+                </h1>
                 <div class="card-body">
                   <h5 class="card-title">
-                    <h2>{{ product.name }}</h2>
+                    <p>{{ product.name }}</p>
                   </h5>
                   <p class="card-text">
                     <br />
                     Price {{ product.price }}RON
                   </p>
                 </div>
-              </router-link>
-            </div>
+              </div>
+              <br />
+            </router-link>
           </div>
         </div>
       </div>
@@ -46,9 +53,7 @@ export default {
 
 <style>
 /* @import "./assets/css/style.css"; */
-#router-link {
-  color: green;
-}
+
 .card:hover {
   -webkit-box-shadow: -1px 9px 40px -12px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: -1px 9px 40px -12px rgba(0, 0, 0, 0.75);

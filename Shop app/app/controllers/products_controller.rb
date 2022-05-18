@@ -9,7 +9,8 @@ class ProductsController < ApplicationController
       def show
         @product =  Product.find(params[:id])
         @order_item = current_order.order_items.new
-
+         
+        @image = url_for(@product.image)
         respond_to do |format|
           format.html
           format.json

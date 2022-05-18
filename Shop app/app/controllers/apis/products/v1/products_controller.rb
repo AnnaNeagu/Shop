@@ -43,26 +43,26 @@ class Apis::Products::V1::ProductsController < ApplicationController
     private 
     def get_formatted_product(product)
 
-      # if product.image.attached?
-      #   some =  ActionController::Base.helpers.image_tag(product.image)
-      # end
-      
+      if product.image.attached?
+        some =  url_for(product.image)
+      end
 
         formatted_product ={
             id: product.id,
             name: product.name,
             bar_code: product.bar_code,
             price: product.price,
+            description: product.description,
             created_at: product.created_at,
             updated_at: product.updated_at,
-            image: product.image
+            image: some
             
         }
-        byebug
+        
   end
 
   def product_params
-    params.require(:product).permit(:name, :bar_code, :price,:image)
+    params.require(:product).permit(:name, :bar_code, :price,:image, :description)
   end
 
 end
