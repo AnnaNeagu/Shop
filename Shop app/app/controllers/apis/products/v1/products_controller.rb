@@ -13,7 +13,9 @@ class Apis::Products::V1::ProductsController < ApplicationController
     end
 
     def create
+      byebug
       @product =  Product.new(product_params)
+      
       if @product.save
         head 200 
       end
@@ -52,17 +54,17 @@ class Apis::Products::V1::ProductsController < ApplicationController
             name: product.name,
             bar_code: product.bar_code,
             price: product.price,
+            image: some,
             description: product.description,
             created_at: product.created_at,
-            updated_at: product.updated_at,
-            image: some
-            
+            updated_at: product.updated_at
+  
         }
         
   end
 
   def product_params
-    params.require(:product).permit(:name, :bar_code, :price,:image, :description)
+    params.require(:product).permit(:name, :bar_code, :price, :description)
   end
 
 end
