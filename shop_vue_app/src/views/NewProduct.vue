@@ -21,7 +21,6 @@
               <h3 class="register-heading">New product</h3>
               <div class="row register-form">
                 <form>
-                  <!-- <%= form_with url: "/products", method: :post,  model: @product, html: {class: "row g-3 needs-validation ", novalidate:true}  do |form| %> -->
                   <div class="row justify-content-md-center">
                     <div class="col-md-4">
                       <label>Name</label>
@@ -34,8 +33,7 @@
                       <span v-if="v$.name.$error">
                         {{ v$.name.$errors[0].$message }}
                       </span>
-                      <!-- <%= form.label :name%>
-                      <%= form.text_field(:name, :class => "form-control", required: true)  %> -->
+
                       <div class="invalid-feedback">Please enter a name.</div>
                     </div>
                     <div class="col-md-4">
@@ -49,8 +47,7 @@
                       <span v-if="v$.bar_code.$error">
                         {{ v$.bar_code.$errors[0].$message }}
                       </span>
-                      <!-- <%= form.label :bar_code%> 
-                      <%= form.text_field(:bar_code, :class => "form-control", required: true)%>  -->
+
                       <div class="invalid-feedback">
                         Please enter a bar code.
                       </div>
@@ -58,7 +55,6 @@
                   </div>
                   <div class="row justify-content-md-center">
                     <div class="col-md-4">
-                      <!-- <%= form.label :price%> -->
                       <label> Price </label>
                       <div class="input-group has-validation">
                         <input
@@ -70,7 +66,7 @@
                         <span v-if="v$.price.$error">
                           {{ v$.price.$errors[0].$message }}
                         </span>
-                        <!-- <%= form.text_field(:price, :class => "form-control", required: true)%>  -->
+
                         <span class="input-group-text">RON</span>
                         <div class="invalid-feedback">
                           Please enter a price.
@@ -83,14 +79,9 @@
                       <input
                         class="form-control"
                         type="file"
-                        v-on:change="state.image"
+                        ref="inputFile"
+                        @change="uploadFile()"
                       />
-                      <span v-if="v$.image.$error">
-                        {{ v$.image.$errors[0].$message }}
-                      </span>
-                      <!-- <%= form.label :image%>
-                            <%= form.file_field(image_tag(:image), :class => "form-control")%> 
-                            <%byebug%> -->
                     </div>
                   </div>
 
@@ -106,11 +97,6 @@
                       <span v-if="v$.description.$error">
                         {{ v$.description.$errors[0].$message }}
                       </span>
-                      <!-- <span v-if="v$.description.$error">
-                        {{ v$.description.$errors[0].$message }}
-                      </span> -->
-                      <!-- <%= form.label :description%> 
-                      <%= form.text_area(:description, :class => "form-control", required: true)%>  -->
                     </div>
 
                     <div
@@ -125,10 +111,8 @@
                       >
                         Create product
                       </button>
-                      <!-- <%= form.submit(:class => "btn btn-success")%> -->
                     </div>
                   </div>
-                  <!-- <% end %>   -->
                 </form>
               </div>
             </div>
@@ -151,7 +135,7 @@ export default {
       name: "",
       bar_code: "",
       price: "",
-      image: "",
+      image: null,
       description: "",
     });
 
@@ -160,7 +144,7 @@ export default {
         name: { required },
         bar_code: { required },
         price: { required },
-        image: { required },
+
         description: { required },
         // description: { required, minLength: minLength(10) },
       };
@@ -173,6 +157,17 @@ export default {
     };
   },
   methods: {
+    // onFileSelected(event) {
+    //   this.state.image = event.target.files[0];
+    //   console.log(this.state.image.name);
+    //   console.log(event.target.files[0]);
+    // },
+
+    uploadFile: function () {
+      this.state.image = this.$refs.inputFile.files[0];
+      console.log(this.state.image);
+      console.log(this.state);
+    },
     async submitForm() {
       this.v$.$validate();
       if (!this.v$.$error) {
@@ -187,7 +182,7 @@ export default {
             name: this.state.name,
             bar_code: this.state.bar_code,
             price: this.state.price,
-            image: this.state.image(),
+            picture: this.state.image,
             description: this.state.description,
 
             headers: {

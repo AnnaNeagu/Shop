@@ -4,35 +4,37 @@
    </head>
    <body>
       <%# <p>You got a new order from <%= @user.email %> 
-      <p>
-        Order details 
+      <h2 style="margin-left: 125px;">
+         Receipt
+      </h2>
+      <% discount = 0, total = 0, subtotal=0, guid=0, time=0 %>
+      <% @order_item.each do |item|  %>
+      <% guid = item.order.guid %>
+      <% time = item.order.created_at.strftime(" %m/%d/%Y, %I:%M%p")%>
+      <%end%>
+      <p> 
+         Order details 
       </p>
-      
       <table>
-         <% discount = 0, total = 0, subtotal=0 %>
-         <% @order_item.each do |item|  %>
-         <% product = Product.find_by_id(item.product_id)%>
-         <tr> 
-          
-
-               <td>Guid
-               </td> 
-               <td> </td>
-               <td><%= item.order.guid %>  </td>
-               
-               
+         <tr>
+            <td>Guid
+            </td>
+            <td> </td>
+            <td><%= guid %>  </td>
          </tr>
-           <tr> 
-          
-
-               <td>Time
-               </td> 
-               <td> </td>
-               <td><%= item.order.created_at.strftime(" %m/%d/%Y, %I:%M%p")%>  </td>
-               
-               
+         <tr>
+            <td>Time
+            </td>
+            <td> </td>
+            <td><%= time%>  </td>
          </tr>
-         <tr ><td colspan="3">----------------------------------------------------------</td></tr>
+      </table>
+      <% @order_item.each do |item|  %>
+      <% product = Product.find_by_id(item.product_id)%>
+      <table>
+         <tr >
+            <td colspan="3">----------------------------------------------------------</td>
+         </tr>
          <tr>
             <td>  <b><%= product.name %></b> </td>
             <td>
@@ -46,28 +48,33 @@
                <p style = "margin-left:50px"> </p>
             </td>
             <td>  <%= item.total %> RON </td>
-            <%total =  item.order.total %>  
-            
+           
          </tr>
+          <%total =  item.order.total %>  
          <% if item.order.discount.nil? %>
          <%else%>
          <% discount =  item.order.discount.name %>
          <%end%>
          <% subtotal=item.order.subtotal %>
          <% end %>
-         <tr>
+         <%# <tr>
             <td>
                <p style = "margin-left:50px">
             </td>
+            </tr> %>
+         <tr >
+            <td colspan="3">----------------------------------------------------------</td>
          </tr>
          <%if discount==[0,0,0]  %>
          <tr style="margin-top:30px">
-            
-             <td> <b> TOTAL :</td> 
-               <td>
-                  <p style = "margin-left:50px">
-               </td>
-               <td> <%= subtotal %> RON
+            <td>
+               <b>
+                  TOTAL :
+            </td>
+            <td>
+            <p style = "margin-left:50px">
+            </td>
+            <td> <%= subtotal %> RON
             </b>
             </td>
          </tr>
