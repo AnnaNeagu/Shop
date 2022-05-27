@@ -11,7 +11,7 @@
             >
               <div class="card" style="width: 18rem">
                 <h1 v-if="product.image !== null">
-                  <img class="card-img-top" v-bind:src="product.image" />
+                  <img class="img-fluid" v-bind:src="product.image" />
                 </h1>
                 <h1 v-else>
                   <img class="card-img-top" src="@/assets/fresh.jpg" />

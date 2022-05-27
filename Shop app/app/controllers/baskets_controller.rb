@@ -10,15 +10,11 @@ class BasketsController < ApplicationController
     
     if session[:discount]
       @discount = session[:discount]
-      #session.delete(:discount)    
-      
-    end  
-
-    
+      #session.delete(:discount)       
+    end    
   end
 
   def create
-    
     @order = Order.find_by_id(session[:order_id])
     if @order
       # unless session[:discount_code].present?

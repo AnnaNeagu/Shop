@@ -33,7 +33,9 @@
                 class="form-select"
                 style="max-width: 2000px"
                 id="quantity_drop_down"
+                v-model="quantity"
               >
+                <option disabled value="">Please select one</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -45,8 +47,12 @@
                 <option value="9">9</option>
                 <option value="10">10</option>
               </select>
+              <!-- <span> {{ quantity }} </span> -->
+
               <br />
-              <button type="button" class="btn btn-dark">Add to basket</button>
+              <button type="button" class="btn btn-dark" @click="submitForm">
+                Add to basket
+              </button>
             </div>
           </div>
         </div>
@@ -55,12 +61,14 @@
   </body>
 </template>
 <script>
+import axios from "axios";
 export default {
   props: ["id"],
 
   data() {
     return {
       product: {},
+      quantity: "",
     };
   },
   mounted() {
@@ -69,12 +77,14 @@ export default {
       .then((data) => (this.product = data))
       .catch((err) => console.log(err.message));
   },
+
   // methods: {
   //   async fetchAProduct() {
   //     try {
   //       const res = await fetch(
   //         "http://localhost:3000/products/" + this.id + ".json"
   //       );
+  //       console.log(this.product);
   //       const data = await res.json();
   //       return data;
   //     } catch (error) {
@@ -82,6 +92,39 @@ export default {
   //     }
   //   },
   // },
+
+  methods: {
+    // addToBasket() {
+    //   this.$emit("add-to-cart", this.product.id, 1);
+    // },
+    async submitForm() {
+      console.log(this.product.id);
+      console.log(this.quantity);
+
+      const res = await axios.post(
+        "http://localhost:3000/apis/products/v1/order_item",
+        {
+          product_id: this.product.id,
+          quantity: this.quantity,
+          user_id: 1,
+
+          headers: {
+            origin: "http://localhost:3000",
+          },
+        }
+      );
+
+      console.log(res);
+      if (res.status == 200) {
+        this.$router.replace({ name: "Basket" });
+      }
+    },
+    postData(e) {
+      this.axios.post("http://localhost:3000/apis/products/v1/order_item");
+      console.warn(this.state);
+      e.preventDefault();
+    },
+  },
 };
 </script>
 <style>

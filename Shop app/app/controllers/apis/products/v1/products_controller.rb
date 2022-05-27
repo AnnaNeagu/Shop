@@ -13,7 +13,7 @@ class Apis::Products::V1::ProductsController < ApplicationController
     end
 
     def create
-      byebug
+      # byebug
       @product =  Product.new(product_params)
       logger.debug @product.errors.full_messages
       if @product.save
