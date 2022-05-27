@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'baskets/order'
   get 'baskets/show'
   get 'cards/show'
 
@@ -11,11 +12,12 @@ Rails.application.routes.draw do
   resources :order_items, only:[:create, :destroy, :update]
   
    
-  resource :baskets, only:[:show, :create]
+  resource :baskets, only:[:order, :show, :create]
   resource :discount, only: :update
   resolve("Discount") { route_for(:discount) }
  
   root "products#index"
+
  
   namespace :apis do
     namespace :products do

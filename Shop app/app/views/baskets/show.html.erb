@@ -199,7 +199,8 @@
       }
    </style>
    <body style="background: -webkit-linear-gradient(left, #52b788, #d8f3dc);">
-      
+      <%# <p id="notice"><%= notice %>
+      <%# <p id="notice"><%= alert %>
       <div class="card">
          <div class="row">
             <div class="col-md-8 cart">
@@ -255,10 +256,6 @@
                </div>
                <hr>
                <div class="row">
-                  <%# <div class="col text-right"><%=current_order.subtotal %> 
-                  <%# <div id="basket">
-                     <%=  render 'baskets/basket'%>
-                  <%# </div>  %>
                   <div class="col text-right">
                      <p> <b>TOTAL PRICE:  <%=current_order.subtotal %> RON </b> </p>
                   </div>
@@ -270,14 +267,11 @@
                </div>
                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                   <% if @discount %>
-                  <%# <div class="container" style="display: flex;justify-content: center;"> %>
                   <div class="col text-right">
                      <p>DISCOUNT: <%= (@discount * 100).round(0) %> %</p>
                   </div>
                   <div class="col text-right">
                      <p>FINAL PRICE:
-                        <%# <% cut = @discount * current_order.subtotal %> 
-                        <%# <% final_price = current_order.subtotal - cut %> 
                         <% final_price = current_order.subtotal-current_order.subtotal * @discount  %>
                         <b><%= number_with_delimiter(final_price, :delimiter => ',') %> RON
                      </p>
@@ -285,12 +279,7 @@
                   </div>
                   <% end %>
                </div>
-              
-               <% if @discount%>
-                 <button onclick="checkout(<%= (@discount * 100).round(0) %>)" class="btn">CHECKOUT</button> 
-               <% else %>
-                  <button onclick="checkout()" class="btn">CHECKOUT</button> 
-               <% end %>
+               <a href="/baskets/order" class="btn btn-outline-dark" > Place order</a>
             </div>
          </div>
       </div>

@@ -1,5 +1,6 @@
 function apply_discount(code) {
   let data = { code: code };
+  console.log(data);
 
   fetch("http://localhost:3000/discount", {
     method: "PUT",
@@ -8,6 +9,7 @@ function apply_discount(code) {
   }).then(() => {
     window.location.reload();
   });
+  console.log(JSON.stringify(data));
 }
 
 function checkout(discount = 0) {

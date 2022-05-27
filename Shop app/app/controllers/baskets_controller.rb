@@ -1,5 +1,17 @@
 class BasketsController < ApplicationController
 
+  def order
+    @order_items = current_order.order_items
+    
+    if session[:discount]
+      @discount = session[:discount]
+      #session.delete(:discount)  
+    
+   
+    
+
+    end    
+  end
 
   def mail_with_order
     @order_items = current_order.order_items
@@ -10,7 +22,12 @@ class BasketsController < ApplicationController
     
     if session[:discount]
       @discount = session[:discount]
-      #session.delete(:discount)       
+      #session.delete(:discount)  
+      flash[:notice] = "Discount code has been applied!"
+    else
+       flash[:alert] = "You did not enter a discount code or the discount code is invalid!"
+    
+
     end    
   end
 

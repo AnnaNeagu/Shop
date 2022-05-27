@@ -45,22 +45,13 @@
 <% else %>
   <%# <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> 
   <%# <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %> 
-<div class="topnav">
-         <a href="/baskets" style="float: right;" ><i class="fa-solid fa-basket-shopping fa-xl" ></i></a>
-        <a href="/products/new"style="float: right;"><i class="fa fa-plus fa-xl "></i></a>
-         <a href="/products" style="float: right;">Products</a>
-         </div>
+<%# <div class="topnav">
+   <a href="/baskets" style="float: right;" ><i class="fa-solid fa-basket-shopping fa-xl" ></i></a>
+   <a href="/products/new"style="float: right;"><i class="fa fa-plus fa-xl "></i></a>
+   <a href="/products" style="float: right;">Products</a>
+</div> %>
+      
 <% end %>
-
-
-
-
-  <%# <ul class="navbar-nav mr-auto">
-    <li class="nav-item active">
-      <a class="nav-link" href="/ideas">Ideas</a>
-    </li>
-    ...
-  </ul> %>
 
 
       <% if notice %>
@@ -69,6 +60,8 @@
       <% if alert %>
         <p class="alert alert-danger"><%= alert %></p>
       <% end %>
+
+      
     <%= yield %>
   </body>
 </html>
