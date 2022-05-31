@@ -100,20 +100,23 @@ export default {
     async submitForm() {
       console.log(this.product.id);
       console.log(this.quantity);
-
+      // const mode = sessionStorage.setItem(this.product_id, this.quantity);
+      // console.log(mode);
+      sessionStorage.setItem(this.product.id, this.quantity);
+      console.log(sessionStorage);
       const res = await axios.post(
         "http://localhost:3000/apis/products/v1/order_item",
         {
           product_id: this.product.id,
           quantity: this.quantity,
           user_id: 1,
-
           headers: {
             origin: "http://localhost:3000",
           },
         }
       );
-
+      // sessionStorage.setItem("test", 1);
+      // alert(sessionStorage.getItem("test")); // after refresh: 1
       console.log(res);
       if (res.status == 200) {
         this.$router.replace({ name: "Basket" });

@@ -15,7 +15,6 @@ class Apis::Products::V1::OrderItemController < ApplicationController
         # end
 
       def create
-        byebug
         @order = current_order
         @order_item = @order.order_items.new(order_params)
 

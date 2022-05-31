@@ -10,67 +10,80 @@
               </div>
             </div>
           </div>
-          <div v-for="order_item in order_items" :key="order_item.order_id">
-            <div class="border-top border-bottom">
-              <div class="row main align-items-center">
-                <div class="col-2">
-                  <img
-                    class="card-img-top"
-                    style="height: 90px; width: 90%"
-                    v-bind:src="order_item.image"
-                  />
-                </div>
-                <div class="col" style="margin-bottom: 40px">
-                  <div class="row text-muted">
-                    <h3>{{ order_item.name }}</h3>
 
-                    <h5>{{ order_item.price }} RON/KG</h5>
-                  </div>
-                </div>
-                <div class="col" style="margin-top: 40px">
-                  <select
-                    class="form-select"
-                    style="max-width: 200px"
-                    id="quantity_drop_down"
-                    v-model="quantity"
-                  >
-                    <option value="" selected disabled>
-                      {{ order_item.quantity }}
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                  </select>
-                </div>
-                <div class="col">
-                  <button class="btn btn-dark">Update</button>
-                  <!-- <%= a.submit("Update", :class => "btn btn-dark", :onClick => "window.location.reload();")%>   
+          <!-- <div>
+            <p>{{ keys }}</p>
+          </div> -->
+          <div v-for="order_item in order_items" :key="order_item.id">
+            <div v-for="id_p in keys" :key="id_p">
+              <!-- <p>{{ order_item.id }}</p>
+              <p>{{ keys }}</p>
+              <p>{{ id_p }}</p> -->
+              <div v-if="order_item.id == id_p">
+                <!-- <div v-if="(order_item.id = key)"> -->
+                <div class="border-top border-bottom">
+                  <div class="row main align-items-center">
+                    <div class="col-2">
+                      <img
+                        class="card-img-top"
+                        style="height: 90px; width: 90%"
+                        v-bind:src="order_item.image"
+                      />
+                    </div>
+                    <div class="col" style="margin-bottom: 40px">
+                      <div class="row text-muted">
+                        <h3>{{ order_item.name }}</h3>
+
+                        <h5>{{ order_item.price }} RON/KG</h5>
+                      </div>
+                    </div>
+                    <div class="col" style="margin-top: 40px">
+                      <select
+                        class="form-select"
+                        style="max-width: 200px"
+                        id="quantity_drop_down"
+                        v-model="quantity"
+                      >
+                        <option value="" selected disabled>
+                          {{ order_item.quantity }}
+                        </option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <button class="btn btn-dark">Update</button>
+                      <!-- <%= a.submit("Update", :class => "btn btn-dark", :onClick => "window.location.reload();")%>   
                           
                         <% end %>  -->
+                    </div>
+                    <div class="col">
+                      <h3>{{ order_item.total }} RON</h3>
+                    </div>
+                    <div class="col">
+                      <button
+                        type="button"
+                        class="btn btn-dark"
+                        @click="deleteProduct(id_p)"
+                      >
+                        Delete
+                      </button>
+
+                      <!-- <%= button_to "Delete", order_item_path(item), method: :delete, class: "btn btn-outline-dark", :onClick => "window.location.reload();"  %> -->
+                    </div>
+                  </div>
                 </div>
-                <div class="col">
-                  <h3>{{ order_item.total }} RON</h3>
-                </div>
-                <div class="col">
-                  <button
-                    type="button"
-                    class="btn btn-dark"
-                    @click="deleteProduct"
-                  >
-                    Delete
-                  </button>
-                  <!-- <%= button_to "Delete", order_item_path(item), method: :delete, class: "btn btn-outline-dark", :onClick => "window.location.reload();"  %> -->
-                </div>
+                <!-- <% end %> -->
               </div>
             </div>
-            <!-- <% end %> -->
           </div>
           <div class="back-to-shop">
             <a href="/products">&leftarrow;</a
@@ -101,12 +114,21 @@ export default {
   name: "Basket",
   props: {
     order_item: Object,
+    id_p: Object,
+    // keys: Object.keys(sessionStorage),
   },
 
   data() {
+    let keys = Object.keys(sessionStorage);
+    console.log(keys);
+    for (let key of keys) {
+      console.log(`${key}: ${sessionStorage.getItem(key)}`);
+      console.log(key);
+    }
     return {
       order_items: [],
       quantity: "",
+      keys: Object.keys(sessionStorage),
     };
   },
 
@@ -116,13 +138,19 @@ export default {
       .then((data) => (this.order_items = data))
       .catch((err) => console.log(err.message));
   },
+
   methods: {
     async deleteProduct() {
       // const res = await axios.delete(
       //   "http://localhost:3000/apis/products/v1/order_item/" +
-      //     this.order_item.order_id
+      //     this.order_items.order_id
       // );
-      console.log(this.order_items);
+      // console.log(this.order_items);
+
+      console.log(sessionStorage);
+      console.log(sessionStorage.id_p);
+      // this.$delete(this.order_items, this.order_item.id);
+      // sessionStorage.clear();
       // if (res.status == 200) {
       //   this.$router.go(0);
       // }
