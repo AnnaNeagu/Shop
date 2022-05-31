@@ -28,11 +28,13 @@ class Apis::Products::V1::OrderItemController < ApplicationController
         end 
       end
 
-      def destroy
-       
+      def destroy 
+        
         @order_item = OrderItem.find(params[:id])
-        byebug
+        # @order_item = @order.order_items.find(params[:id])
+       
         @order_item .destroy
+
         if @order_item .destroyed?
           head 200
         end

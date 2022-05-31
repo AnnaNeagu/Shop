@@ -11,16 +11,9 @@
             </div>
           </div>
 
-          <!-- <div>
-            <p>{{ keys }}</p>
-          </div> -->
           <div v-for="order_item in order_items" :key="order_item.id">
             <div v-for="id_p in keys" :key="id_p">
-              <!-- <p>{{ order_item.id }}</p>
-              <p>{{ keys }}</p>
-              <p>{{ id_p }}</p> -->
               <div v-if="order_item.id == id_p">
-                <!-- <div v-if="(order_item.id = key)"> -->
                 <div class="border-top border-bottom">
                   <div class="row main align-items-center">
                     <div class="col-2">
@@ -30,11 +23,12 @@
                         v-bind:src="order_item.image"
                       />
                     </div>
-                    <div class="col" style="margin-bottom: 40px">
+                    <div class="col" style="margin-top: 40px">
                       <div class="row text-muted">
-                        <h3>{{ order_item.name }}</h3>
-
-                        <h5>{{ order_item.price }} RON/KG</h5>
+                        <h4>
+                          {{ order_item.name }} {{ order_item.price }} RON/KG
+                        </h4>
+                        <h5></h5>
                       </div>
                     </div>
                     <div class="col" style="margin-top: 40px">
@@ -72,7 +66,7 @@
                       <button
                         type="button"
                         class="btn btn-dark"
-                        @click="deleteProduct(id_p)"
+                        @click="deleteProduct(order_item.id_item, id_p)"
                       >
                         Delete
                       </button>
@@ -109,7 +103,7 @@
   </body>
 </template>
 <script>
-// import axios from "axios";
+import axios from "axios";
 export default {
   name: "Basket",
   props: {
@@ -140,20 +134,23 @@ export default {
   },
 
   methods: {
-    async deleteProduct() {
-      // const res = await axios.delete(
-      //   "http://localhost:3000/apis/products/v1/order_item/" +
-      //     this.order_items.order_id
-      // );
+    async deleteProduct(num, id_pp) {
+      const res = await axios.delete(
+        "http://localhost:3000/apis/products/v1/order_item/" + num
+      );
       // console.log(this.order_items);
+      console.log(id_pp);
+      console.log("ceva");
+      // console.log(sessionStorage);
+      console.log(num);
 
-      console.log(sessionStorage);
-      console.log(sessionStorage.id_p);
+      sessionStorage.removeItem(id_pp);
       // this.$delete(this.order_items, this.order_item.id);
-      // sessionStorage.clear();
-      // if (res.status == 200) {
-      //   this.$router.go(0);
-      // }
+
+      // sessionStorage.clear(id_pp);
+      if (res.status == 200) {
+        this.$router.go(0);
+      }
     },
   },
 };

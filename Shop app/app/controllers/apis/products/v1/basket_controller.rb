@@ -34,8 +34,10 @@ class Apis::Products::V1::BasketController < ApplicationController
     #   end
 
         formatted_order_item ={
+           id_item: order_item.id,
            id: order_item.product_id,
            bar_code: order_item.product.bar_code,
+           name:order_item.product.name,
            image: url_for(order_item.product.image),
            price: order_item.product.price,
            quantity: order_item.quantity,
