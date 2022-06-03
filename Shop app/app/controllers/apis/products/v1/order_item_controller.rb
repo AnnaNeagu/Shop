@@ -15,18 +15,25 @@ class Apis::Products::V1::OrderItemController < ApplicationController
         # end
 
       def create
-        @order = current_order
-        @order_item = @order.order_items.new(order_params)
 
-       
+        @order = order
+        @order_item = @order.order_items.new(order_params)
         @order.guid = SecureRandom.uuid
         if @order.save
-          session[:order_id] = @order.id
-            # session[:order_id] = @order.id
+            session[:order_id] = @user_id
             head 200 
-          
         end 
       end
+
+      def order
+        if order_params[:product_id] == 1
+          byebug
+          Order.new
+            
+        else  
+          Order.last(session[:order_id])
+        end
+    end
 
       def destroy 
         

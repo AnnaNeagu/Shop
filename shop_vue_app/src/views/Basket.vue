@@ -88,15 +88,38 @@
         <div class="col-md-4 summary">
           <div>
             <h5><b>ORDER</b></h5>
-          </div>
-
-          <div class="row">
-            <div class="col text-right">
-              <p>
-                <b>TOTAL PRICE: {{}} RON </b>
-              </p>
+            <div v-for="order in order_data" :key="order.id">
+              <div class="row">
+                <div class="col text-right">
+                  <p>
+                    <b>TOTAL PRICE: {{ order.total }} RON </b>
+                  </p>
+                </div>
+              </div>
+              <div class="col" style="border: 1px solid black">
+                <p>DISCOUNT CODE</p>
+                <input
+                  id="voucher-input"
+                  placeholder="Enter the discount code"
+                />
+                <button
+                  onclick="apply_discount(document.getElementById('voucher-input').value)"
+                  type="button"
+                  class="btn"
+                >
+                  Apply
+                </button>
+              </div>
             </div>
           </div>
+
+          <a
+            style="margin-top: 20px"
+            href="/baskets/order"
+            class="btn btn-outline-dark"
+          >
+            Place order</a
+          >
         </div>
       </div>
     </div>
@@ -108,6 +131,7 @@ export default {
   name: "Basket",
   props: {
     order_item: Object,
+    order: Object,
     id_p: Object,
     // keys: Object.keys(sessionStorage),
   },
@@ -119,8 +143,12 @@ export default {
       console.log(`${key}: ${sessionStorage.getItem(key)}`);
       console.log(key);
     }
+
+    // let total = total + order_item.total;
+    // console.log(order_item.total);
     return {
       order_items: [],
+      order_data: [],
       quantity: "",
       keys: Object.keys(sessionStorage),
     };
@@ -130,6 +158,11 @@ export default {
     fetch("http://localhost:3000/apis/products/v1/basket")
       .then((res) => res.json())
       .then((data) => (this.order_items = data))
+      .catch((err) => console.log(err.message));
+
+    fetch("http://localhost:3000/apis/products/v1/order")
+      .then((res) => res.json())
+      .then((data) => (this.order_data = data))
       .catch((err) => console.log(err.message));
   },
 

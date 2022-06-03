@@ -6,10 +6,6 @@ class BasketsController < ApplicationController
     if session[:discount]
       @discount = session[:discount]
       #session.delete(:discount)  
-    
-   
-    
-
     end    
   end
 

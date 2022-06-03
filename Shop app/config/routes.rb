@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   namespace :apis do
     namespace :products do
       namespace :v1 do
+        resources :order
         resources :order_item
         resources :basket
       end
