@@ -25,6 +25,20 @@ class Apis::Products::V1::OrderItemController < ApplicationController
         end 
       end
 
+
+      def update
+        @order = order
+        @order_item = @order.order_items.find(params[:id])
+       
+        if @order_item.update(order_params)
+            @order_items = current_order.order_items
+            
+            head 200   
+            
+        end
+
+      end
+
       def order
         if order_params[:product_id] == 1
           

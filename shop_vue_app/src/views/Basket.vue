@@ -12,70 +12,88 @@
           </div>
 
           <div v-for="order_item in order_items" :key="order_item.order_id">
-            <!-- <div v-for="id_p in keys" :key="id_p">
-              <div v-if="order_item.id == id_p"> -->
-            <div class="border-top border-bottom">
-              <div class="row main align-items-center">
-                <div class="col-2">
-                  <img
-                    class="card-img-top"
-                    style="height: 90px; width: 90%"
-                    v-bind:src="order_item.image"
-                  />
-                </div>
-                <div class="col" style="margin-top: 40px">
-                  <div class="row text-muted">
-                    <h4>{{ order_item.name }} {{ order_item.price }} RON/KG</h4>
-                    <h5></h5>
-                  </div>
-                </div>
-                <div class="col" style="margin-top: 40px">
-                  <select
-                    class="form-select"
-                    style="max-width: 200px"
-                    id="quantity_drop_down"
-                    v-model="quantity"
-                  >
-                    <option value="" selected disabled>
-                      {{ order_item.quantity }}
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                  </select>
-                </div>
-                <div class="col">
-                  <button class="btn btn-dark">Update</button>
-                  <!-- <%= a.submit("Update", :class => "btn btn-dark", :onClick => "window.location.reload();")%>   
+            <div v-for="id_p in keys" :key="id_p">
+              <div v-if="order_item.id == id_p">
+                <div class="border-top border-bottom">
+                  <div class="row main align-items-center">
+                    <div class="col-2">
+                      <img
+                        class="card-img-top"
+                        style="height: 90px; width: 90%"
+                        v-bind:src="order_item.image"
+                      />
+                    </div>
+                    <div class="col" style="margin-top: 40px">
+                      <div class="row text-muted">
+                        <h4>
+                          {{ order_item.name }} {{ order_item.price }} RON/KG
+                        </h4>
+                        <h5></h5>
+                      </div>
+                    </div>
+                    <div class="col" style="margin-top: 40px">
+                      <select
+                        class="form-select"
+                        style="max-width: 200px"
+                        id="quantity_drop_down"
+                        v-model="order_item.quantity"
+                      >
+                        <!-- v-on:change="
+                          updateProduct(order_item.id_item, order_item.quantity)
+                        " -->
+                        <!-- v-model="quantity" -->
+                        <option value="" selected disabled>
+                          {{ order_item.quantity }}
+                        </option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <button
+                        type="button"
+                        class="btn btn-dark"
+                        @click="
+                          updateProduct(
+                            order_item.id_item,
+                            order_item.id,
+                            order_item.quantity
+                          )
+                        "
+                      >
+                        Update
+                      </button>
+                      <!-- <%= a.submit("Update", :class => "btn btn-dark", :onClick => "window.location.reload();")%>   
                           
                         <% end %>  -->
-                </div>
-                <div class="col">
-                  <h3>{{ order_item.total }} RON</h3>
-                </div>
-                <div class="col">
-                  <button
-                    type="button"
-                    class="btn btn-dark"
-                    @click="deleteProduct(order_item.id_item, id_p)"
-                  >
-                    Delete
-                  </button>
+                    </div>
+                    <div class="col">
+                      <h3>{{ order_item.total }} RON</h3>
+                    </div>
+                    <div class="col">
+                      <button
+                        type="button"
+                        class="btn btn-dark"
+                        @click="deleteProduct(order_item.id_item, id_p)"
+                      >
+                        Delete
+                      </button>
 
-                  <!-- <%= button_to "Delete", order_item_path(item), method: :delete, class: "btn btn-outline-dark", :onClick => "window.location.reload();"  %> -->
+                      <!-- <%= button_to "Delete", order_item_path(item), method: :delete, class: "btn btn-outline-dark", :onClick => "window.location.reload();"  %> -->
+                    </div>
+                  </div>
                 </div>
+                <!-- <% end %> -->
               </div>
             </div>
-            <!-- <% end %> -->
-            <!-- </div>
-            </div> -->
           </div>
           <div class="back-to-shop">
             <a href="/products">&leftarrow;</a
@@ -149,6 +167,7 @@ export default {
       order_data: [],
       quantity: "",
       keys: Object.keys(sessionStorage),
+      position: "Select Option",
     };
   },
 
@@ -176,6 +195,34 @@ export default {
       console.log(num);
 
       sessionStorage.removeItem(id_pp);
+      // this.$delete(this.order_items, this.order_item.id);
+
+      //sessionStorage.clear(id_pp);
+      if (res.status == 200) {
+        this.$router.go(0);
+      }
+    },
+
+    async updateProduct(num, product_id, quantity) {
+      const res = await axios.put(
+        "http://localhost:3000/apis/products/v1/order_item/" + num,
+        {
+          quantity: quantity,
+
+          headers: {
+            origin: "http://localhost:3000",
+          },
+        }
+      );
+      console.log(res);
+      // console.log(this.order_items);
+      console.log(quantity);
+      console.log("ceva");
+      // console.log(sessionStorage);
+      console.log(product_id);
+      console.log(num);
+
+      sessionStorage.setItem(product_id, quantity);
       // this.$delete(this.order_items, this.order_item.id);
 
       // sessionStorage.clear(id_pp);
