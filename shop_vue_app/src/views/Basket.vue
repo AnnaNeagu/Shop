@@ -38,10 +38,6 @@
                         id="quantity_drop_down"
                         v-model="order_item.quantity"
                       >
-                        <!-- v-on:change="
-                          updateProduct(order_item.id_item, order_item.quantity)
-                        " -->
-                        <!-- v-model="quantity" -->
                         <option value="" selected disabled>
                           {{ order_item.quantity }}
                         </option>
@@ -71,9 +67,6 @@
                       >
                         Update
                       </button>
-                      <!-- <%= a.submit("Update", :class => "btn btn-dark", :onClick => "window.location.reload();")%>   
-                          
-                        <% end %>  -->
                     </div>
                     <div class="col">
                       <h3>{{ order_item.total }} RON</h3>
@@ -86,8 +79,6 @@
                       >
                         Delete
                       </button>
-
-                      <!-- <%= button_to "Delete", order_item_path(item), method: :delete, class: "btn btn-outline-dark", :onClick => "window.location.reload();"  %> -->
                     </div>
                   </div>
                 </div>
@@ -149,7 +140,6 @@ export default {
     order_item: Object,
     order: Object,
     id_p: Object,
-    // keys: Object.keys(sessionStorage),
   },
 
   data() {
@@ -160,8 +150,6 @@ export default {
       console.log(key);
     }
 
-    // let total = total + order_item.total;
-    // console.log(order_item.total);
     return {
       order_items: [],
       order_data: [],
@@ -188,15 +176,7 @@ export default {
       const res = await axios.delete(
         "http://localhost:3000/apis/products/v1/order_item/" + num
       );
-      // console.log(this.order_items);
-      console.log(id_pp);
-      console.log("ceva");
-      // console.log(sessionStorage);
-      console.log(num);
-
       sessionStorage.removeItem(id_pp);
-      // this.$delete(this.order_items, this.order_item.id);
-
       //sessionStorage.clear(id_pp);
       if (res.status == 200) {
         this.$router.go(0);
@@ -214,18 +194,7 @@ export default {
           },
         }
       );
-      console.log(res);
-      // console.log(this.order_items);
-      console.log(quantity);
-      console.log("ceva");
-      // console.log(sessionStorage);
-      console.log(product_id);
-      console.log(num);
-
       sessionStorage.setItem(product_id, quantity);
-      // this.$delete(this.order_items, this.order_item.id);
-
-      // sessionStorage.clear(id_pp);
       if (res.status == 200) {
         this.$router.go(0);
       }
