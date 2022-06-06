@@ -27,7 +27,7 @@ class Apis::Products::V1::OrderItemController < ApplicationController
 
       def order
         if order_params[:product_id] == 1
-          byebug
+          
           Order.new
             
         else  

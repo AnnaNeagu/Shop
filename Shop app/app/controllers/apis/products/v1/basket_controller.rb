@@ -10,15 +10,16 @@ class Apis::Products::V1::BasketController < ApplicationController
 
 
     @order_items  =  []
-    # @last = OrderItem.last.order_id
+    @last = OrderItem.last.order_id
     OrderItem.all.each do |order_item|
        
-            @order_items << get_formatted_order_item(order_item)
+            # @order_items << get_formatted_order_item(order_item)
 
-            # if order_item.order_id == @last
-            #     @order_items = []
-            #     @order_items << get_formatted_order_item(order_item)
-            # end
+            if order_item.order_id == @last
+                
+                @order_items << get_formatted_order_item(order_item)
+                
+            end
         
        
     end
