@@ -99,7 +99,7 @@
               <div class="row">
                 <div class="col text-right">
                   <p>
-                    <b>TOTAL PRICE: {{ order.total }} RON </b>
+                    <b>SUBTOTAL PRICE: {{ order.subtotal }} RON </b>
                   </p>
                 </div>
               </div>
@@ -108,14 +108,18 @@
                 <input
                   id="voucher-input"
                   placeholder="Enter the discount code"
+                  v-model="discount_code"
                 />
                 <button
-                  onclick="apply_discount(document.getElementById('voucher-input').value)"
+                  @click="applyDiscount(order.id, discount_code)"
                   type="button"
                   class="btn"
                 >
                   Apply
                 </button>
+
+                <h5>{{ order.discount_id }}</h5>
+                <b>TOTAL PRICE: {{ order.total }} RON </b>
               </div>
             </div>
           </div>
@@ -198,6 +202,33 @@ export default {
       if (res.status == 200) {
         this.$router.go(0);
       }
+    },
+
+    async applyDiscount(order_id, code) {
+      console.log(order_id);
+      console.log(code);
+      const res = await axios.put(
+        "http://localhost:3000/apis/products/v1/discounts/" + order_id,
+        {
+          order_id: order_id,
+          code: code,
+
+          headers: {
+            origin: "http://localhost:3000",
+          },
+        }
+      );
+
+      if (res.status == 200) {
+        this.$router.go(0);
+      }
+    },
+
+    async getDiscount() {
+      fetch("http://localhost:3000/apis/products/v1/discounts")
+        .then((res) => res.json())
+        .then((data) => (this.order_data = data))
+        .catch((err) => console.log(err.message));
     },
   },
 };

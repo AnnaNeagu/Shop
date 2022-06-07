@@ -3,10 +3,11 @@ class Apis::Products::V1::BasketController < ApplicationController
   def index
     # @order_items = current_order.order_items
     
-    # if session[:discount]
-    #   @discount = session[:discount]
-    #   #session.delete(:discount)       
-    # end  
+    if session[:discount]
+      @discount = session[:discount]
+      #session.delete(:discount)  
+    end     
+  # end  
 
 
     @order_items  =  []
@@ -45,6 +46,7 @@ class Apis::Products::V1::BasketController < ApplicationController
            order_id: order_item.order_id,
            total: order_item.total,
            subtotal: order_item.order.subtotal,
+          
         }     
   end
 

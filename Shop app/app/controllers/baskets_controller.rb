@@ -21,7 +21,7 @@ class BasketsController < ApplicationController
       #session.delete(:discount)  
       flash[:notice] = "Discount code has been applied!"
     else
-       flash[:alert] = "You did not enter a discount code or the discount code is invalid!"
+      flash[:alert] = "You did not enter a discount code or the discount code is invalid!"
     
 
     end    

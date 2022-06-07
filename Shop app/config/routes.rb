@@ -33,6 +33,7 @@ Rails.application.routes.draw do
         resources :order
         resources :order_item
         resources :basket
+        resources :discounts
       end
     end
   end
