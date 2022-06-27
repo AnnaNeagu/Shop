@@ -38,4 +38,12 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :apis do
+    namespace :login do
+      namespace :v1 do
+        resources :login
+      end
+    end
+  end
+
 end

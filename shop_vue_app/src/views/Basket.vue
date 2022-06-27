@@ -118,7 +118,7 @@
                   Apply
                 </button>
 
-                <h5>{{ order.discount_id }}</h5>
+                <h5>{{ order.discount }}</h5>
                 <b>TOTAL PRICE: {{ order.total }} RON </b>
               </div>
             </div>
@@ -126,7 +126,7 @@
 
           <a
             style="margin-top: 20px"
-            href="/baskets/order"
+            href="/order"
             class="btn btn-outline-dark"
           >
             Place order</a
@@ -181,7 +181,7 @@ export default {
         "http://localhost:3000/apis/products/v1/order_item/" + num
       );
       sessionStorage.removeItem(id_pp);
-      //sessionStorage.clear(id_pp);
+      sessionStorage.clear(id_pp);
       if (res.status == 200) {
         this.$router.go(0);
       }

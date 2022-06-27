@@ -9,10 +9,57 @@
     <router-link :to="{ name: 'Products' }"> Products </router-link>
     <router-link :to="{ name: 'NewProduct' }"> New Product </router-link>
     <router-link :to="{ name: 'Basket' }"> Basket </router-link>
+    <!-- <p>ana</p> -->
+    <h1 v-if="keys != 0">
+      <h5 v-if="keys[0].length > 3" style="float: right; margin-top: 15px">
+        Welcome, {{ keys[0] }}!
+      </h5>
+      <p v-else style="float: right">
+        <router-link :to="{ name: 'Login' }"> Login </router-link>
+        <router-link :to="{ name: 'SignUp' }"> Sign Up </router-link>
+      </p>
+    </h1>
   </div>
   <router-view />
 </template>
+<script>
+export default {
+  // name: "Login",
+  props: {
+    id_p: Object,
+  },
+  // params: {
+  //   email: "",
+  //   pass: "",
+  // },
+  data() {
+    let keys = Object.keys(sessionStorage);
+    console.log(keys);
+    console.log(keys[0]);
 
+    if (keys[0] === "ana@test.com") {
+      console.log("string");
+    } else console.log("no");
+
+    // const emailRegex = RegExp(
+    //   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    // );
+    // if (keys[0].match(emailRegex)) {
+    //   console.log("string");
+    // } else console.log("no");
+
+    for (let key of keys) {
+      console.log(`${key}: ${sessionStorage.getItem(key)}`);
+      console.log(key);
+    }
+
+    return {
+      keys: Object.keys(sessionStorage),
+    };
+  },
+};
+</script>
+>
 <style>
 .card:hover {
   -webkit-box-shadow: -1px 9px 40px -12px rgba(0, 0, 0, 0.75);

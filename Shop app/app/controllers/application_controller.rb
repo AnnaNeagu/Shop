@@ -4,10 +4,10 @@ class ApplicationController < ActionController::Base
     add_flash_types :info, :error, :success
 
     #commented for vue access
-    skip_before_action :verify_authenticity_token
-    before_action :authenticate_user!
+    # skip_before_action :verify_authenticity_token
+    # before_action :authenticate_user!
 
     #uncommented for vue access
-    # protect_from_forgery prepend: true
+    protect_from_forgery prepend: true
     
 end

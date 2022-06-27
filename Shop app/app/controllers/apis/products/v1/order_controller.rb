@@ -28,7 +28,8 @@ class Apis::Products::V1::OrderController < ApplicationController
            total: order.total,
            subtotal: order.subtotal,
            guid: order.guid,
-           discount_id: disc_val,
+           discount: disc_val,
+           time: order.created_at.strftime(" %m/%d/%Y, %I:%M%p"),
         }
   end
 
