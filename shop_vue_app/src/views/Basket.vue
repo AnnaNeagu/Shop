@@ -181,7 +181,7 @@ export default {
         "http://localhost:3000/apis/products/v1/order_item/" + num
       );
       sessionStorage.removeItem(id_pp);
-      sessionStorage.clear(id_pp);
+      //sessionStorage.clear(id_pp);
       if (res.status == 200) {
         this.$router.go(0);
       }

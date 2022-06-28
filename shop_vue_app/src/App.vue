@@ -6,13 +6,16 @@
     crossorigin="anonymous"
   />
   <div class="topnav">
-    <router-link :to="{ name: 'Products' }"> Products </router-link>
-    <router-link :to="{ name: 'NewProduct' }"> New Product </router-link>
-    <router-link :to="{ name: 'Basket' }"> Basket </router-link>
+    <router-link :to="{ name: 'Products' }"> <b>Products</b> </router-link>
+    <router-link :to="{ name: 'NewProduct' }"> <b>New Product </b></router-link>
+    <router-link :to="{ name: 'Basket' }"><b> Basket </b></router-link>
     <!-- <p>ana</p> -->
     <h1 v-if="keys != 0">
-      <h5 v-if="keys[0].length > 3" style="float: right; margin-top: 15px">
-        Welcome, {{ keys[0] }}!
+      <h5 v-if="keys[0].length > 3">
+        <a style="float: right; color: #04aa6d" @click="logout(keys[0])"
+          ><b>Logout</b></a
+        >
+        <p style="float: right; margin-top: 10px">Welcome, {{ keys[0] }}!</p>
       </h5>
       <p v-else style="float: right">
         <router-link :to="{ name: 'Login' }"> Login </router-link>
@@ -56,6 +59,12 @@ export default {
     return {
       keys: Object.keys(sessionStorage),
     };
+  },
+  methods: {
+    async logout(email) {
+      sessionStorage.removeItem(email);
+      window.location.reload();
+    },
   },
 };
 </script>
