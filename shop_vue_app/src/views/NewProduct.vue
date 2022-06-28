@@ -63,15 +63,15 @@
                           placeholder="Price"
                           v-model="state.price"
                         />
-                        <span v-if="v$.price.$error">
-                          {{ v$.price.$errors[0].$message }}
-                        </span>
 
                         <span class="input-group-text">RON</span>
                         <div class="invalid-feedback">
                           Please enter a price.
                         </div>
                       </div>
+                      <span v-if="v$.price.$error">
+                        {{ v$.price.$errors[0].$message }}
+                      </span>
                     </div>
 
                     <div class="col-md-4">

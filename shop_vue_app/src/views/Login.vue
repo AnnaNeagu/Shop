@@ -4,8 +4,6 @@
       <div class="row">
         <div class="col-md-3 register-left" style="margin-top: 150px">
           <h3>Fresh products</h3>
-          <!-- <%# <%= render "devise/shared/links",:class => "btn btn-success" %> 
-      <%# <%= button_to "Sign in", new_user_registration_path,:class => "btn btn-success"  %> -->
           <a
             class="btn btn-success btn-lg"
             href="/signup"
@@ -13,7 +11,6 @@
             style="margin-top: 50px"
             >Sign up</a
           >
-          <!-- <%# <button type="button", class="btn btn-success"> Sign in</button> %> -->
         </div>
         <div class="col-md-9 register-right">
           <div class="tab-content" id="myTabContent">
@@ -25,7 +22,6 @@
             >
               <h2 class="register-heading">Log in</h2>
               <div class="row register-form">
-                <!-- <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "row g-3 needs-validation ", novalidate:true}) do |f| %> -->
                 <div class="row justify-content-md-center">
                   <div class="col-md-4">
                     <label for="exampleInputEmail1">Email address</label>
@@ -35,10 +31,11 @@
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
                       placeholder="Enter email"
-                      v-model="email"
+                      v-model="state.email"
                     />
-                    <!-- <%= f.label :email %><br />
-               <%= f.email_field :email, autofocus: true, autocomplete: "email", :class => "form-control", required: true %> -->
+                    <span v-if="v$.email.$error" style="color: rgb(0, 0, 0)">
+                      {{ v$.email.$errors[0].$message }}
+                    </span>
                     <div class="invalid-feedback">
                       Please enter email address.
                     </div>
@@ -52,21 +49,17 @@
                       class="form-control"
                       id="exampleInputPassword1"
                       placeholder="Password"
-                      v-model="password"
+                      v-model="state.password"
                     />
-                    <!-- <%= f.label :password %><br />
-               <%= f.password_field :password, autocomplete: "current-password", :class => "form-control", required: true %> -->
+                    <span v-if="v$.password.$error" class="error">
+                      {{ v$.password.$errors[0].$message }}
+                    </span>
                     <div class="invalid-feedback">Please enter password.</div>
                   </div>
                 </div>
-                <!-- <% if devise_mapping.rememberable? %> -->
                 <div class="row justify-content-md-center">
-                  <div class="col-md-4">
-                    <!-- <%= f.check_box :remember_me, :class => "form-check-input" %>
-               <%= f.label :remember_me %> -->
-                  </div>
+                  <div class="col-md-4"></div>
                 </div>
-                <!-- <% end %> -->
                 <div class="row justify-content-md-center">
                   <div
                     class="form-group"
@@ -74,16 +67,14 @@
                     style="color: 52b788; margin-top: 20px"
                   >
                     <button
-                      @click="login(email, password)"
+                      @click="login(state.email, state.password)"
                       type="submit"
                       class="btn btn-success"
                     >
                       Log in
                     </button>
-                    <!-- <%= f.submit "Log in",:class => "btn btn-success" %> -->
                   </div>
                 </div>
-                <!-- <% end %> -->
               </div>
             </div>
           </div>
@@ -93,10 +84,31 @@
   </body>
 </template>
 <script>
+import useValidate from "@vuelidate/core";
+import { required, email, minLength } from "@vuelidate/validators";
+import { reactive, computed } from "vue";
 export default {
   name: "Basket",
   props: {},
+  setup() {
+    const state = reactive({
+      email: "",
+      password: "",
+    });
 
+    const rules = computed(() => {
+      return {
+        email: { required, email },
+        password: { required, minLenght: minLength(3) },
+      };
+    });
+    const v$ = useValidate(rules, state);
+
+    return {
+      state,
+      v$,
+    };
+  },
   data() {
     return {
       email: "",
@@ -104,19 +116,26 @@ export default {
     };
   },
   methods: {
-    async login(email, pass) {
-      if (localStorage.getItem(email) !== null) {
-        // console.log(`${email}: ${localStorage.getItem(email)}`);
-        // console.log(localStorage.getItem(email));
-        if (pass == localStorage.getItem(email)) {
-          console.log(`Email address exists`);
-          sessionStorage.setItem(email, pass);
-          window.location.href = "/order";
+    async login(email, password) {
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        alert("Form successfuly submitted.");
+        if (localStorage.getItem(email) !== null) {
+          // console.log(`${email}: ${localStorage.getItem(email)}`);
+          // console.log(localStorage.getItem(email));
+          if (password == localStorage.getItem(email)) {
+            console.log(`Email address exists`);
+            sessionStorage.setItem(email, password);
+            window.location.href = "/order";
+          }
+          sessionStorage.setItem(email, password);
         }
-        sessionStorage.setItem(email, pass);
       } else {
-        console.log(`Email address not found`);
+        alert("Form failed validation.");
+        console.log(this.state.email);
+        console.log(this.state.password);
       }
+
       // localStorage.setItem(email, pass);
       // window.location.href = "/order";
     },
@@ -295,5 +314,9 @@ body {
     display: block;
     text-align: left;
   }
+}
+.error {
+  border-color: red;
+  background: #fdd;
 }
 </style>

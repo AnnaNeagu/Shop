@@ -21,7 +21,6 @@
           >
             <h2 class="register-heading">Sign Up</h2>
             <div class="row register-form">
-              <!-- <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "row g-3 needs-validation ", novalidate:true}) do |f| %> -->
               <div class="row justify-content-md-center">
                 <div class="col-md-4">
                   <label for="exampleInputEmail1">Email address</label>
@@ -31,10 +30,11 @@
                     id="exampleInputEmail1"
                     aria-describedby="emailHelp"
                     placeholder="Enter email"
-                    v-model="email"
+                    v-model="state.email"
                   />
-                  <!-- <%= f.label :email %><br />
-               <%= f.email_field :email, autofocus: true, autocomplete: "email", :class => "form-control", required: true %> -->
+                  <span v-if="v$.email.$error">
+                    {{ v$.email.$errors[0].$message }}
+                  </span>
                   <div class="invalid-feedback">
                     Please enter email address.
                   </div>
@@ -48,10 +48,11 @@
                     class="form-control"
                     id="exampleInputPassword1"
                     placeholder="Password"
-                    v-model="password"
+                    v-model="state.password.password"
                   />
-                  <!-- <%= f.label :password %><br />
-               <%= f.password_field :password, autocomplete: "current-password", :class => "form-control", required: true %> -->
+                  <span v-if="v$.password.password.$error">
+                    {{ v$.password.password.$errors[0].$message }}
+                  </span>
                   <div class="invalid-feedback">Please enter password.</div>
                 </div>
               </div>
@@ -63,21 +64,17 @@
                     class="form-control"
                     id="exampleInputPassword1"
                     placeholder="Password"
-                    v-model="password"
+                    v-model="state.password.confirm"
                   />
-                  <!-- <%= f.label :password %><br />
-               <%= f.password_field :password, autocomplete: "current-password", :class => "form-control", required: true %> -->
+                  <span v-if="v$.password.confirm.$error">
+                    {{ v$.password.confirm.$errors[0].$message }}
+                  </span>
                   <div class="invalid-feedback">Please enter password.</div>
                 </div>
               </div>
-              <!-- <% if devise_mapping.rememberable? %> -->
               <div class="row justify-content-md-center">
-                <div class="col-md-4">
-                  <!-- <%= f.check_box :remember_me, :class => "form-check-input" %>
-               <%= f.label :remember_me %> -->
-                </div>
+                <div class="col-md-4"></div>
               </div>
-              <!-- <% end %> -->
               <div class="row justify-content-md-center">
                 <div
                   class="form-group"
@@ -85,16 +82,14 @@
                   style="color: 52b788; margin-top: 20px"
                 >
                   <button
-                    @click="login(email, password)"
+                    @click="signup(email, password)"
                     type="submit"
                     class="btn btn-success"
                   >
                     Sign Up
                   </button>
-                  <!-- <%= f.submit "Log in",:class => "btn btn-success" %> -->
                 </div>
               </div>
-              <!-- <% end %> -->
             </div>
           </div>
         </div>
@@ -103,20 +98,59 @@
   </div>
 </template>
 <script>
+import useValidate from "@vuelidate/core";
+import { required, email, minLength, sameAs } from "@vuelidate/validators";
+import { reactive, computed } from "vue";
 export default {
   name: "SignUp",
   props: {},
+  setup() {
+    const state = reactive({
+      email: "",
+      password: {
+        password: "",
+        confirm: "",
+      },
+    });
 
+    const rules = computed(() => {
+      return {
+        email: { required, email },
+        password: {
+          password: { required, minLenght: minLength(3) },
+          confirm: { required, sameAs: sameAs(state.password.password) },
+        },
+      };
+    });
+    const v$ = useValidate(rules, state);
+
+    return {
+      state,
+      v$,
+    };
+  },
   data() {
     return {
       email: "",
-      password: "",
+      password: {
+        password: "",
+        confirm: "",
+      },
     };
   },
   methods: {
-    async login(email, pass) {
-      localStorage.setItem(email, pass);
-      window.location.href = "/login";
+    async signup() {
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        alert("Form successfuly submitted.");
+
+        localStorage.setItem(this.state.email, this.state.password.password);
+        window.location.href = "/login";
+      } else {
+        alert("Form failed validation.");
+        console.log(this.state.email);
+        console.log(this.state.password);
+      }
     },
   },
 };

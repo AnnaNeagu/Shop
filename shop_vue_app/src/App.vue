@@ -18,8 +18,8 @@
         <p style="float: right; margin-top: 10px">Welcome, {{ keys[0] }}!</p>
       </h5>
       <p v-else style="float: right">
-        <router-link :to="{ name: 'Login' }"> Login </router-link>
-        <router-link :to="{ name: 'SignUp' }"> Sign Up </router-link>
+        <router-link :to="{ name: 'Login' }"> <b>Login </b> </router-link>
+        <router-link :to="{ name: 'SignUp' }"> <b>Sign Up </b> </router-link>
       </p>
     </h1>
   </div>
