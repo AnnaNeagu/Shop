@@ -9,11 +9,18 @@
     <router-link :to="{ name: 'Products' }"> <b>Products</b> </router-link>
     <router-link :to="{ name: 'NewProduct' }"> <b>New Product </b></router-link>
     <router-link :to="{ name: 'Basket' }"><b> Basket </b></router-link>
+
     <!-- <p>ana</p> -->
     <h1 v-if="keys != 0">
       <h5 v-if="keys[0].length > 3">
         <a style="float: right; color: #04aa6d" @click="logout(keys[0])"
           ><b>Logout</b></a
+        >
+        <router-link
+          :to="{ name: 'Orders' }"
+          style="float: right"
+          @click="setuser(keys[0])"
+          ><b> Orders </b></router-link
         >
         <p style="float: right; margin-top: 10px">Welcome, {{ keys[0] }}!</p>
       </h5>
@@ -26,6 +33,7 @@
   <router-view />
 </template>
 <script>
+import axios from "axios";
 export default {
   // name: "Login",
   props: {
@@ -58,12 +66,30 @@ export default {
 
     return {
       keys: Object.keys(sessionStorage),
+      email: keys[0],
     };
   },
   methods: {
     async logout(email) {
       sessionStorage.removeItem(email);
       window.location.reload();
+    },
+    async setuser() {
+      const res = await axios.post(
+        "http://localhost:3000/apis/products/v1/orders",
+        {
+          user: this.email,
+          headers: {
+            origin: "http://localhost:3000",
+          },
+        }
+      );
+      // sessionStorage.setItem("test", 1);
+      // alert(sessionStorage.getItem("test")); // after refresh: 1
+      console.log(res);
+      if (res.status == 200) {
+        this.$router.replace({ name: "Orders" });
+      }
     },
   },
 };

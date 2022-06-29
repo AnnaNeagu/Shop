@@ -315,8 +315,8 @@ body {
     text-align: left;
   }
 }
-.error {
+/* .error {
   border-color: red;
   background: #fdd;
-}
+} */
 </style>

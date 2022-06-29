@@ -15,6 +15,15 @@ class Apis::Products::V1::OrderController < ApplicationController
     render json: @order
   end
 
+  def update
+    @order = Order.last(session[:order_id])
+
+    if @order.update(order_user)
+      head 200
+    end
+
+  end
+
   private
     def get_formatted_order(order)
       if order.discount_id.nil?
@@ -28,9 +37,13 @@ class Apis::Products::V1::OrderController < ApplicationController
            total: order.total,
            subtotal: order.subtotal,
            guid: order.guid,
+           user: order.user,
            discount: disc_val,
            time: order.created_at.strftime(" %m/%d/%Y, %I:%M%p"),
         }
+  end
+  def order_user
+    params.require(:order).permit(:user)
   end
 
 end

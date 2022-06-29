@@ -77,24 +77,6 @@
                      <% else %>
                      <button onclick="checkout()" class="btn">CHECKOUT</button> 
                      <% end %> -->
-                  <h1 v-if="keys[0].match(emailRegex)">
-                    <a
-                      style="margin-top: 20px"
-                      @click="add_user(keys[0])"
-                      class="btn btn-outline-dark"
-                    >
-                      CHECKOUT</a
-                    >
-                  </h1>
-                  <h1 v-else>
-                    <a
-                      style="margin-top: 20px"
-                      href="/login"
-                      class="btn btn-outline-dark"
-                    >
-                      Checkout</a
-                    >
-                  </h1>
                 </div>
               </div>
             </div>
@@ -106,7 +88,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "Basket",
   props: {
@@ -143,39 +124,12 @@ export default {
   },
 
   mounted() {
-    fetch("http://localhost:3000/apis/products/v1/basket")
-      .then((res) => res.json())
-      .then((data) => (this.order_items = data))
-      .catch((err) => console.log(err.message));
-
-    fetch("http://localhost:3000/apis/products/v1/order")
-      .then((res) => res.json())
-      .then((data) => (this.order_data = data))
-      .catch((err) => console.log(err.message));
-
-    fetch("http://localhost:3000/apis/products/v1/discounts")
+    fetch("http://localhost:3000/apis/products/v1/orders")
       .then((res) => res.json())
       .then((data) => (this.order_data = data))
       .catch((err) => console.log(err.message));
   },
-  methods: {
-    async add_user(email) {
-      // console.log(email);
-      const res = await axios.put(
-        "http://localhost:3000/apis/products/v1/order/" + email,
-        {
-          user: email,
-          headers: {
-            origin: "http://localhost:3000",
-          },
-        }
-      );
-
-      if (res.status == 200) {
-        this.$router.go(0);
-      }
-    },
-  },
+  methods: {},
 };
 </script>
 

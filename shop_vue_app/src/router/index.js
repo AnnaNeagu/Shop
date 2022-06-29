@@ -4,6 +4,8 @@ import Product from "../views/Product.vue";
 import NewProduct from "../views/NewProduct.vue";
 import Basket from "../views/Basket.vue";
 import Order from "../views/Order.vue";
+import Order_info from "../views/Order_info.vue";
+import Orders from "../views/Orders.vue";
 import Login from "../views/Login.vue";
 import SignUp from "../views/SignUp.vue";
 
@@ -33,6 +35,16 @@ const routes = [
     path: "/order",
     name: "Order",
     component: Order,
+  },
+  {
+    path: "/orderinfo",
+    name: "Order_info",
+    component: Order_info,
+  },
+  {
+    path: "/orders",
+    name: "Orders",
+    component: Orders,
   },
   {
     path: "/signup",
