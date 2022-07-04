@@ -26,3 +26,4 @@ Discount.create(name: "65% discount", code:"DISC65", percent:0.65)
 Discount.create(name: "70% discount", code:"DISC70", percent:0.7)
 
 
+

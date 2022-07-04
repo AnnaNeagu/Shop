@@ -7,6 +7,7 @@ import Order from "../views/Order.vue";
 import Order_info from "../views/Order_info.vue";
 import Orders from "../views/Orders.vue";
 import Login from "../views/Login.vue";
+import Logintest from "../views/Logintest.vue";
 import SignUp from "../views/SignUp.vue";
 
 const routes = [
@@ -55,6 +56,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/logintest",
+    name: "Logintest",
+    component: Logintest,
   },
 ];
 

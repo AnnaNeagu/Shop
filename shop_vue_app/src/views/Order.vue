@@ -172,7 +172,17 @@ export default {
       );
 
       if (res.status == 200) {
-        this.$router.go(0);
+        const ces = await axios.post(
+          "http://localhost:3000/apis/products/v1/order/",
+          {
+            headers: {
+              origin: "http://localhost:3000",
+            },
+          }
+        );
+        if (ces.status == 200) {
+          this.$router.go(0);
+        }
       }
     },
   },

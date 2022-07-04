@@ -72,7 +72,7 @@ export default {
   methods: {
     async logout(email) {
       sessionStorage.removeItem(email);
-      window.location.reload();
+      window.location.href = "/";
     },
     async setuser() {
       const res = await axios.post(

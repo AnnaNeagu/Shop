@@ -9,7 +9,6 @@ class Apis::Products::V1::BasketController < ApplicationController
     end     
   # end  
 
-
     @order_items  =  []
     @last = OrderItem.last.order_id
     OrderItem.all.each do |order_item|

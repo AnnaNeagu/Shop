@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     namespace :login do
       namespace :v1 do
         resources :login
+        resources :users
       end
     end
   end
