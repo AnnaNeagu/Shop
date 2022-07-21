@@ -77,10 +77,11 @@
                      <% else %>
                      <button onclick="checkout()" class="btn">CHECKOUT</button> 
                      <% end %> -->
-                  <h1 v-if="keys[0].match(emailRegex)">
+                  <h1 v-if="email_user !== NULL">
                     <a
                       style="margin-top: 20px"
-                      @click="add_user(keys[0])"
+                      @click="add_user(id_user)"
+                      href="/orders"
                       class="btn btn-outline-dark"
                     >
                       CHECKOUT</a
@@ -139,6 +140,14 @@ export default {
       emailRegex: RegExp(
         /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
       ),
+      email_user: document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("email="))
+        ?.split("=")[1],
+      id_user: document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("id="))
+        ?.split("=")[1],
     };
   },
 
@@ -159,12 +168,13 @@ export default {
       .catch((err) => console.log(err.message));
   },
   methods: {
-    async add_user(email) {
-      // console.log(email);
+    async add_user(id_user) {
+      console.log(id_user);
+      sessionStorage.clear();
       const res = await axios.put(
-        "http://localhost:3000/apis/products/v1/order/" + email,
+        "http://localhost:3000/apis/products/v1/order/" + id_user,
         {
-          user: email,
+          user: id_user,
           headers: {
             origin: "http://localhost:3000",
           },

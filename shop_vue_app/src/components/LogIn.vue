@@ -28,19 +28,17 @@
                     <label for="exampleInputEmail1">Email address</label>
                     <input
                       type="email"
-                      name="username"
                       class="form-control"
-                      v-model="obj.user.email"
-                      placeholder="Username"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                      v-model="state.email"
                     />
-
+                    <span v-if="v$.email.$error" style="color: rgb(0, 0, 0)">
+                      {{ v$.email.$errors[0].$message }}
+                    </span>
                     <div class="invalid-feedback">
                       Please enter email address.
-                    </div>
-
-                    <div style="color: #ef233c" v-if="v$.obj.user.email.$error">
-                      <i class="fa-solid fa-triangle-exclamation"></i>
-                      {{ v$.obj.user.email.$errors[0].$message }}
                     </div>
                   </div>
                 </div>
@@ -49,21 +47,15 @@
                     <label for="exampleInputPassword1">Password</label>
                     <input
                       type="password"
-                      name="password"
                       class="form-control"
-                      v-model="obj.user.password"
+                      id="exampleInputPassword1"
                       placeholder="Password"
+                      v-model="state.password"
                     />
-
+                    <span v-if="v$.password.$error" class="error">
+                      {{ v$.password.$errors[0].$message }}
+                    </span>
                     <div class="invalid-feedback">Please enter password.</div>
-
-                    <div
-                      style="color: #ef233c"
-                      v-if="v$.obj.user.password.$error"
-                    >
-                      <i class="fa-solid fa-triangle-exclamation"></i>
-                      {{ v$.obj.user.password.$errors[0].$message }}
-                    </div>
                   </div>
                 </div>
                 <div class="row justify-content-md-center">
@@ -76,7 +68,7 @@
                     style="color: 52b788; margin-top: 20px"
                   >
                     <button
-                      @click="login()"
+                      @click="login(state.email, state.password)"
                       type="submit"
                       class="btn btn-success"
                     >
@@ -92,89 +84,61 @@
     </div>
   </body>
 </template>
-
 <script>
-import axios from "axios";
 import useValidate from "@vuelidate/core";
 import { required, email, minLength } from "@vuelidate/validators";
+import { reactive, computed } from "vue";
 export default {
-  name: "Login",
+  name: "Basket",
+  props: {},
   setup() {
+    const state = reactive({
+      email: "",
+      password: "",
+    });
+
+    const rules = computed(() => {
+      return {
+        email: { required, email },
+        password: { required, minLenght: minLength(3) },
+      };
+    });
+    const v$ = useValidate(rules, state);
+
     return {
-      v$: useValidate(),
+      state,
+      v$,
     };
   },
-
   data() {
     return {
-      obj: {
-        user: {
-          email: "",
-          password: "",
-        },
-      },
-    };
-  },
-
-  validations() {
-    return {
-      obj: {
-        user: {
-          email: { required, email },
-          password: { required, minLenght: minLength(6) },
-        },
-      },
+      email: "",
+      password: "",
     };
   },
   methods: {
-    async login() {
-      const isFormCorrect = await this.v$.$validate();
-      if (!isFormCorrect) {
-        return;
-      } else {
-        const res = await axios.post(
-          "http://localhost:3000/apis/users/v1/sessions",
-          this.obj
-        );
-        if (res.data[0].message) {
-          this.$swal.fire({
-            position: "top-end",
-            icon: "error",
-            title: "Something went wrong!",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        } else {
-          console.log("login success");
-          document.cookie = "id=" + res.data[0].id + ";SameSite=None; Secure";
-          document.cookie =
-            "email=" + res.data[0].email + ";SameSite=None; Secure";
-          document.cookie =
-            "admin=" + res.data[0].admin + ";SameSite=None; Secure";
-          console.log(
-            document.cookie
-              .split("; ")
-              .find((row) => row.startsWith("id="))
-              ?.split("=")[1]
-          ); // get the value of id from cookies
-          console.log(
-            document.cookie
-              .split("; ")
-              .find((row) => row.startsWith("email="))
-              ?.split("=")[1]
-          ); // get the value of email from cookies
-          this.$swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Successful login!",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          setTimeout(function () {
-            window.location.href = "/";
-          }, 1800);
+    async login(email, password) {
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        alert("Form successfuly submitted.");
+        if (localStorage.getItem(email) !== null) {
+          // console.log(`${email}: ${localStorage.getItem(email)}`);
+          // console.log(localStorage.getItem(email));
+          if (password == localStorage.getItem(email)) {
+            console.log(`Email address exists`);
+            sessionStorage.setItem(email, password);
+            window.location.href = "/order";
+          }
+          sessionStorage.setItem(email, password);
         }
+      } else {
+        alert("Form failed validation.");
+        console.log(this.state.email);
+        console.log(this.state.password);
       }
+
+      // localStorage.setItem(email, pass);
+      // window.location.href = "/order";
     },
   },
 };

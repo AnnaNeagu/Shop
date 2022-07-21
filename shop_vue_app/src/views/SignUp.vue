@@ -30,11 +30,12 @@
                     id="exampleInputEmail1"
                     aria-describedby="emailHelp"
                     placeholder="Enter email"
-                    v-model="state.email"
+                    v-model="obj.user.email"
                   />
-                  <span v-if="v$.email.$error">
-                    {{ v$.email.$errors[0].$message }}
-                  </span>
+                  <div style="color: #ef233c" v-if="v$.obj.user.email.$error">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    {{ v$.obj.user.email.$errors[0].$message }}
+                  </div>
                   <div class="invalid-feedback">
                     Please enter email address.
                   </div>
@@ -48,11 +49,15 @@
                     class="form-control"
                     id="exampleInputPassword1"
                     placeholder="Password"
-                    v-model="state.password.password"
+                    v-model="obj.user.password"
                   />
-                  <span v-if="v$.password.password.$error">
-                    {{ v$.password.password.$errors[0].$message }}
-                  </span>
+                  <div
+                    style="color: #ef233c"
+                    v-if="v$.obj.user.password.$error"
+                  >
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    {{ v$.obj.user.password.$errors[0].$message }}
+                  </div>
                   <div class="invalid-feedback">Please enter password.</div>
                 </div>
               </div>
@@ -64,11 +69,15 @@
                     class="form-control"
                     id="exampleInputPassword1"
                     placeholder="Password"
-                    v-model="state.password.confirm"
+                    v-model="obj.user.password_confirmation"
                   />
-                  <span v-if="v$.password.confirm.$error">
-                    {{ v$.password.confirm.$errors[0].$message }}
-                  </span>
+                  <div
+                    style="color: #ef233c"
+                    v-if="v$.obj.user.password_confirmation.$error"
+                  >
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    {{ v$.obj.user.password_confirmation.$errors[0].$message }}
+                  </div>
                   <div class="invalid-feedback">Please enter password.</div>
                 </div>
               </div>
@@ -82,7 +91,7 @@
                   style="color: 52b788; margin-top: 20px"
                 >
                   <button
-                    @click="signup(email, password)"
+                    @click="signup()"
                     type="submit"
                     class="btn btn-success"
                   >
@@ -98,58 +107,70 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 import useValidate from "@vuelidate/core";
 import { required, email, minLength, sameAs } from "@vuelidate/validators";
-import { reactive, computed } from "vue";
 export default {
   name: "SignUp",
-  props: {},
+
   setup() {
-    const state = reactive({
-      email: "",
-      password: {
-        password: "",
-        confirm: "",
-      },
-    });
-
-    const rules = computed(() => {
-      return {
-        email: { required, email },
-        password: {
-          password: { required, minLenght: minLength(3) },
-          confirm: { required, sameAs: sameAs(state.password.password) },
-        },
-      };
-    });
-    const v$ = useValidate(rules, state);
-
     return {
-      state,
-      v$,
+      v$: useValidate(),
     };
   },
   data() {
     return {
-      email: "",
-      password: {
-        password: "",
-        confirm: "",
+      obj: {
+        user: {
+          email: "",
+          password: "",
+          password_confirmation: "",
+        },
       },
     };
   },
+  validations() {
+    return {
+      obj: {
+        user: {
+          email: { required, email },
+          password: { required, minLenght: minLength(6) },
+          password_confirmation: {
+            required,
+            sameAs: sameAs(this.obj.user.password),
+          },
+        },
+      },
+    };
+  },
+
   methods: {
     async signup() {
-      this.v$.$validate();
-      if (!this.v$.$error) {
-        alert("Form successfuly submitted.");
-
-        localStorage.setItem(this.state.email, this.state.password.password);
-        window.location.href = "/login";
+      const isFormCorrect = await this.v$.$validate();
+      if (!isFormCorrect) {
+        return;
       } else {
-        alert("Form failed validation.");
-        console.log(this.state.email);
-        console.log(this.state.password);
+        // console.log(this.obj);
+        // console.log(this.password);
+        const res = await axios.post(
+          "http://localhost:3000/apis/users/v1/users",
+          this.obj
+        );
+        if (res.status == 200) {
+          this.$router.go(0);
+          this.$swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Successful SignUp!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          setTimeout(function () {
+            window.location.href = "/login";
+          }, 1800);
+        } else {
+          console.log("The username and / or password is incorrect");
+        }
       }
     },
   },

@@ -6,9 +6,23 @@ import Basket from "../views/Basket.vue";
 import Order from "../views/Order.vue";
 import Order_info from "../views/Order_info.vue";
 import Orders from "../views/Orders.vue";
+import LogIn from "../components/LogIn.vue";
 import Login from "../views/Login.vue";
-import Logintest from "../views/Logintest.vue";
+import Secure from "../views/Secure.vue";
 import SignUp from "../views/SignUp.vue";
+import Signup from "../components/Signup.vue";
+import { store } from "@/main";
+
+// const store = new Vuex.Store({
+//   state: {
+//     authenticated: false,
+//   },
+//   mutations: {
+//     setAuthentication(state, status) {
+//       state.authenticated = status;
+//     },
+//   },
+// });
 
 const routes = [
   {
@@ -38,9 +52,10 @@ const routes = [
     component: Order,
   },
   {
-    path: "/orderinfo",
+    path: "/orderinfo/:id",
     name: "Order_info",
     component: Order_info,
+    props: true,
   },
   {
     path: "/orders",
@@ -53,14 +68,31 @@ const routes = [
     component: SignUp,
   },
   {
+    path: "/signuplocal",
+    name: "Signup",
+    component: Signup,
+  },
+  {
     path: "/login",
     name: "Login",
     component: Login,
   },
   {
-    path: "/logintest",
-    name: "Logintest",
-    component: Logintest,
+    path: "/logIn",
+    name: "LogIn",
+    component: LogIn,
+  },
+  {
+    path: "/secure",
+    name: "secure",
+    component: Secure,
+    beforeEnter: (to, from, next) => {
+      if (store.state.authenticated == false) {
+        next(false);
+      } else {
+        next();
+      }
+    },
   },
 ];
 

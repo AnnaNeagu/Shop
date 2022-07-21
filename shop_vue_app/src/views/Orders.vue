@@ -17,7 +17,13 @@
       <div v-for="order in orders" :key="order.id" class="article">
         <router-link :to="{ name: 'Order_info', params: { id: order.id } }">
           <h5>
-            Order: {{ order.guid }}{{ order.time }} Total: {{ order.total }} lei
+            Order id:
+            {{ order.id }}
+            <x>
+              Total:
+              {{ order.total }}
+              lei
+            </x>
           </h5>
         </router-link>
       </div>
@@ -47,12 +53,15 @@ export default {
   padding: 20px;
   border-radius: 10px;
   margin: 10px auto;
-  max-width: 800px;
+  max-width: 600px;
   cursor: pointer;
   color: #444;
+  text-align: center;
 }
+
 .article h5:hover {
   background: #ddd;
+  text-align: center;
 }
 .article a {
   text-decoration: none;

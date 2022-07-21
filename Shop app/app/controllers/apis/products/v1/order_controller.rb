@@ -15,9 +15,44 @@ class Apis::Products::V1::OrderController < ApplicationController
     render json: @order
   end
 
+
+  def show
+    @order = Order.find(params[:id])
+    array = []
+
+   @order.order_items.each do |order_item|
+      array << get_formatted_order_item(order_item)
+  
+    end 
+
+    if @order.discount.nil?
+      disc ="Without discount code!"
+      
+    else
+      disc = @order.discount.name
+    end
+
+    time = @order.created_at.strftime(" %m/%d/%Y, %I:%M%p")
+    
+    render json: {
+
+      
+
+      id: @order.id,
+      products: array,
+      subtotal: @order.subtotal,
+      discount: disc,
+      total: @order.total,
+      time:time,
+      guid: @order.guid 
+    }
+
+  end
+
+
+
   def update
     @order = Order.last(session[:order_id])
-
     if @order.update(order_user)
       head 200
     end
@@ -42,6 +77,25 @@ class Apis::Products::V1::OrderController < ApplicationController
            time: order.created_at.strftime(" %m/%d/%Y, %I:%M%p"),
         }
   end
+
+  def get_formatted_order_item(order_item)
+
+
+        formatted_order_item ={
+           id_item: order_item.id,
+           id: order_item.product_id,
+          
+           name:order_item.product.name,
+          #  image: url_for(order_item.product.image),
+           price: order_item.product.price,
+           quantity: order_item.quantity,
+           order_id: order_item.order_id,
+           total: order_item.total,
+           subtotal: order_item.order.subtotal,
+          
+        }     
+  end 
+
   def order_user
     params.require(:order).permit(:user)
   end

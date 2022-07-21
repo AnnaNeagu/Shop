@@ -1,0 +1,2 @@
+class SessionCurrent < ApplicationRecord
+end

@@ -1,136 +1,144 @@
 <template>
   <body style="background: -webkit-linear-gradient(left, #52b788, #d8f3dc)">
-    <div class="card">
-      <div class="row">
-        <div class="col-md-8 cart">
-          <div class="title">
-            <div class="row">
-              <div class="col">
-                <h4><b>Basket</b></h4>
+    <div
+      v-if="keys == 0"
+      style="text-align: center; margin-top: 20%; font-size: 50px"
+    >
+      The basket is empty!
+    </div>
+    <div v-else>
+      <div class="card">
+        <div class="row">
+          <div class="col-md-8 cart">
+            <div class="title">
+              <div class="row">
+                <div class="col">
+                  <h4><b>Basket</b></h4>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div v-for="order_item in order_items" :key="order_item.order_id">
-            <div v-for="id_p in keys" :key="id_p">
-              <div v-if="order_item.id == id_p">
-                <div class="border-top border-bottom">
-                  <div class="row main align-items-center">
-                    <div class="col-2">
-                      <img
-                        class="card-img-top"
-                        style="height: 90px; width: 90%"
-                        v-bind:src="order_item.image"
-                      />
-                    </div>
-                    <div class="col" style="margin-top: 40px">
-                      <div class="row text-muted">
-                        <h4>
-                          {{ order_item.name }} {{ order_item.price }} RON/KG
-                        </h4>
-                        <h5></h5>
+            <div v-for="order_item in order_items" :key="order_item.order_id">
+              <div v-for="id_p in keys" :key="id_p">
+                <div v-if="order_item.id == id_p">
+                  <div class="border-top border-bottom">
+                    <div class="row main align-items-center">
+                      <div class="col-2">
+                        <img
+                          class="card-img-top"
+                          style="height: 90px; width: 90%"
+                          v-bind:src="order_item.image"
+                        />
+                      </div>
+                      <div class="col" style="margin-top: 40px">
+                        <div class="row text-muted">
+                          <h4>
+                            {{ order_item.name }} {{ order_item.price }} RON/KG
+                          </h4>
+                          <h5></h5>
+                        </div>
+                      </div>
+                      <div class="col" style="margin-top: 40px">
+                        <select
+                          class="form-select"
+                          style="max-width: 200px"
+                          id="quantity_drop_down"
+                          v-model="order_item.quantity"
+                        >
+                          <option value="" selected disabled>
+                            {{ order_item.quantity }}
+                          </option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                        </select>
+                      </div>
+                      <div class="col">
+                        <button
+                          type="button"
+                          class="btn btn-dark"
+                          @click="
+                            updateProduct(
+                              order_item.id_item,
+                              order_item.id,
+                              order_item.quantity
+                            )
+                          "
+                        >
+                          Update
+                        </button>
+                      </div>
+                      <div class="col">
+                        <h3>{{ order_item.total }} RON</h3>
+                      </div>
+                      <div class="col">
+                        <button
+                          type="button"
+                          class="btn btn-dark"
+                          @click="deleteProduct(order_item.id_item, id_p)"
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
-                    <div class="col" style="margin-top: 40px">
-                      <select
-                        class="form-select"
-                        style="max-width: 200px"
-                        id="quantity_drop_down"
-                        v-model="order_item.quantity"
-                      >
-                        <option value="" selected disabled>
-                          {{ order_item.quantity }}
-                        </option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                      </select>
-                    </div>
-                    <div class="col">
-                      <button
-                        type="button"
-                        class="btn btn-dark"
-                        @click="
-                          updateProduct(
-                            order_item.id_item,
-                            order_item.id,
-                            order_item.quantity
-                          )
-                        "
-                      >
-                        Update
-                      </button>
-                    </div>
-                    <div class="col">
-                      <h3>{{ order_item.total }} RON</h3>
-                    </div>
-                    <div class="col">
-                      <button
-                        type="button"
-                        class="btn btn-dark"
-                        @click="deleteProduct(order_item.id_item, id_p)"
-                      >
-                        Delete
-                      </button>
-                    </div>
+                  </div>
+                  <!-- <% end %> -->
+                </div>
+              </div>
+            </div>
+            <div class="back-to-shop">
+              <a href="/products">&leftarrow;</a
+              ><span class="text-muted">Back to shop</span>
+            </div>
+          </div>
+
+          <div class="col-md-4 summary">
+            <div>
+              <h5><b>ORDER</b></h5>
+              <div v-for="order in order_data" :key="order.id">
+                <div class="row">
+                  <div class="col text-right">
+                    <p>
+                      <b>SUBTOTAL PRICE: {{ order.subtotal }} RON </b>
+                    </p>
                   </div>
                 </div>
-                <!-- <% end %> -->
-              </div>
-            </div>
-          </div>
-          <div class="back-to-shop">
-            <a href="/products">&leftarrow;</a
-            ><span class="text-muted">Back to shop</span>
-          </div>
-        </div>
+                <div class="col" style="border: 1px solid black">
+                  <p>DISCOUNT CODE</p>
+                  <input
+                    id="voucher-input"
+                    placeholder="Enter the discount code"
+                    v-model="discount_code"
+                  />
+                  <button
+                    @click="applyDiscount(order.id, discount_code)"
+                    type="button"
+                    class="btn"
+                  >
+                    Apply
+                  </button>
 
-        <div class="col-md-4 summary">
-          <div>
-            <h5><b>ORDER</b></h5>
-            <div v-for="order in order_data" :key="order.id">
-              <div class="row">
-                <div class="col text-right">
-                  <p>
-                    <b>SUBTOTAL PRICE: {{ order.subtotal }} RON </b>
-                  </p>
+                  <h5>{{ order.discount }}</h5>
+                  <b>TOTAL PRICE: {{ order.total }} RON </b>
                 </div>
               </div>
-              <div class="col" style="border: 1px solid black">
-                <p>DISCOUNT CODE</p>
-                <input
-                  id="voucher-input"
-                  placeholder="Enter the discount code"
-                  v-model="discount_code"
-                />
-                <button
-                  @click="applyDiscount(order.id, discount_code)"
-                  type="button"
-                  class="btn"
-                >
-                  Apply
-                </button>
-
-                <h5>{{ order.discount }}</h5>
-                <b>TOTAL PRICE: {{ order.total }} RON </b>
-              </div>
             </div>
-          </div>
 
-          <a
-            style="margin-top: 20px"
-            href="/order"
-            class="btn btn-outline-dark"
-          >
-            Place order</a
-          >
+            <a
+              style="margin-top: 20px"
+              href="/order"
+              class="btn btn-outline-dark"
+            >
+              Place order</a
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -207,6 +215,7 @@ export default {
     async applyDiscount(order_id, code) {
       console.log(order_id);
       console.log(code);
+
       const res = await axios.put(
         "http://localhost:3000/apis/products/v1/discounts/" + order_id,
         {

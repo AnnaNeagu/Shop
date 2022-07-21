@@ -7,29 +7,37 @@
   />
   <div class="topnav">
     <router-link :to="{ name: 'Products' }"> <b>Products</b> </router-link>
-    <router-link :to="{ name: 'NewProduct' }"> <b>New Product </b></router-link>
-    <router-link :to="{ name: 'Basket' }"><b> Basket </b></router-link>
 
-    <!-- <p>ana</p> -->
-    <h1 v-if="keys != 0">
-      <h5 v-if="keys[0].length > 3">
-        <a style="float: right; color: #04aa6d" @click="logout(keys[0])"
-          ><b>Logout</b></a
-        >
-        <router-link
-          :to="{ name: 'Orders' }"
-          style="float: right"
-          @click="setuser(keys[0])"
-          ><b> Orders </b></router-link
-        >
-        <p style="float: right; margin-top: 10px">Welcome, {{ keys[0] }}!</p>
-      </h5>
-      <p v-else style="float: right">
-        <router-link :to="{ name: 'Login' }"> <b>Login </b> </router-link>
-        <router-link :to="{ name: 'SignUp' }"> <b>Sign Up </b> </router-link>
-      </p>
+    <h1 v-if="status_admin == 'true'">
+      <router-link :to="{ name: 'NewProduct' }">
+        <b>New Product </b></router-link
+      >
     </h1>
+    <h1 v-if="email_user != null">
+      <router-link :to="{ name: 'Basket' }"><b> Basket </b></router-link>
+    </h1>
+    <!-- <p>ana</p> -->
+    <h1 v-if="email_user !== NULL">
+      <a style="float: right; color: #04aa6d" @click="logout()"
+        ><b>Logout</b></a
+      >
+      <router-link
+        :to="{ name: 'Orders' }"
+        style="float: right"
+        @click="setuser()"
+        ><b> Orders </b></router-link
+      >
+      <h5 style="float: right; margin-top: 10px">Welcome, {{ email_user }}!</h5>
+    </h1>
+    <p v-else style="float: right">
+      <router-link :to="{ name: 'Login' }"> <b>Login </b> </router-link>
+      <router-link :to="{ name: 'SignUp' }"> <b>Sign Up </b> </router-link>
+    </p>
   </div>
+
+  <!-- <div v-for="check_session in check_sessions" :key="check_session.id">
+    <p style="color: #52b788">{{ (alex = check_session.id) }}</p>
+  </div> -->
   <router-view />
 </template>
 <script>
@@ -39,18 +47,19 @@ export default {
   props: {
     id_p: Object,
   },
-  // params: {
-  //   email: "",
-  //   pass: "",
-  // },
+  params: {
+    // pass: "",
+
+    check_session: Object,
+  },
   data() {
     let keys = Object.keys(sessionStorage);
-    console.log(keys);
-    console.log(keys[0]);
+    // console.log(keys);
+    // console.log(keys[0]);
 
-    if (keys[0] === "ana@test.com") {
-      console.log("string");
-    } else console.log("no");
+    // if (keys[0] === "ana@test.com") {
+    //   console.log("string");
+    // } else console.log("no");
 
     // const emailRegex = RegExp(
     //   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -59,26 +68,82 @@ export default {
     //   console.log("string");
     // } else console.log("no");
 
-    for (let key of keys) {
-      console.log(`${key}: ${sessionStorage.getItem(key)}`);
-      console.log(key);
-    }
+    // for (let key of keys) {
+    //   console.log(`${key}: ${sessionStorage.getItem(key)}`);
+    //   console.log(key);
+    // }
 
     return {
       keys: Object.keys(sessionStorage),
       email: keys[0],
+      email_user: document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("email="))
+        ?.split("=")[1],
+      id_user: document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("id="))
+        ?.split("=")[1],
+      status_admin: document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("admin="))
+        ?.split("=")[1],
+
+      check_sessions: [],
     };
   },
+  mounted() {
+    fetch("http://localhost:3000/apis/products/v1/check_sessions")
+      .then((res) => res.json())
+      .then((data) => (this.check_sessions = data))
+      .catch((err) => console.log(err.message));
+
+    console.log("Aici e sesion lenght " + sessionStorage.length);
+
+    if (sessionStorage.length == 0) {
+      const res = axios.post(
+        "http://localhost:3000/apis/products/v1/check_sessions",
+        {
+          value: sessionStorage.length,
+          headers: {
+            origin: "http://localhost:3000",
+          },
+        }
+      );
+      if (res.status == 200) {
+        this.$router.go(0);
+      }
+    } else {
+      console.log(this.alex);
+      const res = axios.put(
+        "http://localhost:3000/apis/products/v1/check_sessions/" + 17,
+        {
+          value: sessionStorage.length,
+          headers: {
+            origin: "http://localhost:3000",
+          },
+        }
+      );
+      if (res.status == 200) {
+        this.$router.go(0);
+      }
+    }
+  },
+
   methods: {
-    async logout(email) {
-      sessionStorage.removeItem(email);
+    async logout() {
+      document.cookie = "email" + "=; expires=Thu, 01-Jan-70 00:00:01 GMT;";
+      document.cookie = "admin" + "=; expires=Thu, 01-Jan-70 00:00:01 GMT;";
+      sessionStorage.clear();
+      // const output = document.getElementById("cookie-value");
+      // output.textContent = this.email_user;
       window.location.href = "/";
     },
     async setuser() {
       const res = await axios.post(
         "http://localhost:3000/apis/products/v1/orders",
         {
-          user: this.email,
+          user: this.id_user,
           headers: {
             origin: "http://localhost:3000",
           },

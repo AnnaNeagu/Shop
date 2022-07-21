@@ -12,20 +12,26 @@
                   </div>
                 </div>
               </div>
-              <div v-for="order_item in order_items" :key="order_item.order_id">
+
+              <div
+                v-for="order_items in order.products"
+                :key="order_items.order_id"
+              >
                 <!-- <% @order_items.each do |item| %> -->
                 <div class="row border-top border-bottom">
                   <div class="row main align-items-center">
                     <div class="col">
                       <div class="row text-muted">
-                        <h3>{{ order_item.name }}</h3>
-                        <h5>quantity x {{ order_item.quantity }}</h5>
+                        {{ order_items.name }} X quantity
+                        {{ order_items.quantity }}
+                        <!-- <h3>{{ order.total }}</h3> -->
+                        <!-- <h5>quantity x {{ order_item.quantity }}</h5> -->
                       </div>
                     </div>
                     <div class="col">
                       <div class="row text-muted">
-                        <h5>{{ order_item.price }} RON/KG</h5>
-                        <h5>{{ order_item.total }} RON</h5>
+                        {{ order_items.price }} RON/KG subtotal:
+                        {{ order_items.total }} RON
                       </div>
                     </div>
                   </div>
@@ -42,7 +48,7 @@
               <div>
                 <p></p>
                 <h5><b>Order details</b></h5>
-                <div v-for="order in order_data" :key="order.id">
+                <div>
                   <b> GUID {{ order.guid }} </b>
 
                   <p style="margin-bottom: 30px">
@@ -89,44 +95,49 @@
 
 <script>
 export default {
-  name: "Basket",
-  props: {
-    order_item: Object,
-    order: Object,
-    id_p: Object,
-  },
+  props: ["id"],
+  // {
+  //   order_item: Object,
+  //   order: Object,
+  //   id_p: Object,
+
+  // },
 
   data() {
-    let keys = Object.keys(sessionStorage);
-    console.log(keys);
-    console.log(keys[0]);
-    const emailRegex = RegExp(
-      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-    );
-    if (keys[0].match(emailRegex)) {
-      console.log("string");
-    } else console.log("no");
-    for (let key of keys) {
-      console.log(`${key}: ${sessionStorage.getItem(key)}`);
-      console.log(key);
-    }
+    // let keys = Object.keys(sessionStorage);
+    // console.log(keys);
+    // console.log(keys[0]);
+    // const emailRegex = RegExp(
+    //   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    // );
+    // if (keys[0].match(emailRegex)) {
+    //   console.log("string");
+    // } else console.log("no");
+    // for (let key of keys) {
+    //   console.log(`${key}: ${sessionStorage.getItem(key)}`);
+    //   console.log(key);
+    // }
 
     return {
       order_items: [],
-      order_data: [],
+      order: {},
       quantity: "",
       keys: Object.keys(sessionStorage),
       position: "Select Option",
-      emailRegex: RegExp(
-        /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      ),
+      // emailRegex: RegExp(
+      //   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+      // ),
     };
   },
 
   mounted() {
-    fetch("http://localhost:3000/apis/products/v1/orders")
+    // fetch("http://localhost:3000/order/" + this.id + ".json")
+    //   .then((res) => res.json())
+    //   .then((data) => (this.order = data))
+    //   .catch((err) => console.log(err.message));
+    fetch("http://localhost:3000/apis/products/v1/order/" + this.id)
       .then((res) => res.json())
-      .then((data) => (this.order_data = data))
+      .then((data) => (this.order = data))
       .catch((err) => console.log(err.message));
   },
   methods: {},

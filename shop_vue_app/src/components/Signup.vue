@@ -30,11 +30,11 @@
                     id="exampleInputEmail1"
                     aria-describedby="emailHelp"
                     placeholder="Enter email"
-                    v-model="obj.user.email"
+                    v-model="state.email"
                   />
-                  <!-- <span v-if="v$.user.email.$error">
+                  <span v-if="v$.email.$error">
                     {{ v$.email.$errors[0].$message }}
-                  </span> -->
+                  </span>
                   <div class="invalid-feedback">
                     Please enter email address.
                   </div>
@@ -48,11 +48,11 @@
                     class="form-control"
                     id="exampleInputPassword1"
                     placeholder="Password"
-                    v-model="obj.user.password"
+                    v-model="state.password.password"
                   />
-                  <!-- <span v-if="v$.user.password.$error">
-                    {{ v$.password.$errors[0].$message }}
-                  </span> -->
+                  <span v-if="v$.password.password.$error">
+                    {{ v$.password.password.$errors[0].$message }}
+                  </span>
                   <div class="invalid-feedback">Please enter password.</div>
                 </div>
               </div>
@@ -64,11 +64,11 @@
                     class="form-control"
                     id="exampleInputPassword1"
                     placeholder="Password"
-                    v-model="obj.user.password_confirmation"
+                    v-model="state.password.confirm"
                   />
-                  <!-- <span v-if="v$.user.password_confirmation.$error">
-                    {{ v$.password_confirmation.$errors[0].$message }}
-                  </span> -->
+                  <span v-if="v$.password.confirm.$error">
+                    {{ v$.password.confirm.$errors[0].$message }}
+                  </span>
                   <div class="invalid-feedback">Please enter password.</div>
                 </div>
               </div>
@@ -82,7 +82,7 @@
                   style="color: 52b788; margin-top: 20px"
                 >
                   <button
-                    @click="signup()"
+                    @click="signup(email, password)"
                     type="submit"
                     class="btn btn-success"
                   >
@@ -98,7 +98,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import useValidate from "@vuelidate/core";
 import { required, email, minLength, sameAs } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
@@ -108,18 +107,18 @@ export default {
   setup() {
     const state = reactive({
       email: "",
-      password: "",
-      password_confirmation: "",
+      password: {
+        password: "",
+        confirm: "",
+      },
     });
 
     const rules = computed(() => {
       return {
         email: { required, email },
-
-        password: { required, minLenght: minLength(3) },
-        password_confirmation: {
-          required,
-          sameAs: sameAs(state.password),
+        password: {
+          password: { required, minLenght: minLength(3) },
+          confirm: { required, sameAs: sameAs(state.password.password) },
         },
       };
     });
@@ -132,43 +131,26 @@ export default {
   },
   data() {
     return {
-      //   email: "",
-      //   password: {
-      //     password: "",
-      //     confirm: "",
-      //   },
-      obj: {
-        user: {
-          email: "",
-          password: "",
-          password_confirmation: "",
-        },
+      email: "",
+      password: {
+        password: "",
+        confirm: "",
       },
     };
   },
   methods: {
     async signup() {
-      //   this.v$.$validate();
-      //   if (!this.v$.$error) {
-      //     alert("Form successfuly submitted.");
-      console.log(this.obj);
-      console.log(this.password);
-      const res = await axios.post(
-        //path to rails app
-        "http://localhost:3000/apis/login/v1/users",
-        this.obj
-      );
-      if (res.status == 200) {
-        this.$router.go(0);
-      }
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        alert("Form successfuly submitted.");
 
-      // localStorage.setItem(this.state.email, this.state.password.password);
-      window.location.href = "/login";
-      //   } else {
-      //     alert("Form failed validation.");
-      //     console.log(this.state.email);
-      //     console.log(this.state.password);
-      //   }
+        localStorage.setItem(this.state.email, this.state.password.password);
+        window.location.href = "/login";
+      } else {
+        alert("Form failed validation.");
+        console.log(this.state.email);
+        console.log(this.state.password);
+      }
     },
   },
 };

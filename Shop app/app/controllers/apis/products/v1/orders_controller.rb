@@ -1,31 +1,31 @@
 class Apis::Products::V1::OrdersController < ApplicationController
 
-    @@user_email = 0
+    @@user_id = 0
  
-    
+    # byebug
     def create
-        
         user =  Order.new(order_params)
-        # byebug
-        @@user_email = user.user
+         
+        @@user_id = user.user
         # if @@user_email
         #     head 200
         # end
-           
     end
 
-    @@user_email
+    @@user_id
     # byebug
     def index
         @orders  =  []
         Order.all.each do |order|
-            if order.user == @@user_email
+            if order.user == @@user_id
                 # byebug
                @orders << get_formatted_order(order)
                
            end
         end
+
          render json: @orders
+        #  byebug
 
     end
     
@@ -44,6 +44,7 @@ class Apis::Products::V1::OrdersController < ApplicationController
              guid: order.guid,
              discount: disc_val,
              time: order.created_at.strftime(" %m/%d/%Y, %I:%M%p"),
+             user: order.user,
           }
     end
 

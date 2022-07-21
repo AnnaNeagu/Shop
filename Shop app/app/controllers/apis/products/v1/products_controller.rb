@@ -4,7 +4,6 @@ class Apis::Products::V1::ProductsController < ApplicationController
     Product.all.each do |product|
         @products << get_formatted_product(product)
     end
-    
     render json: @products
     end
 

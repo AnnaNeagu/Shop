@@ -1,0 +1,2 @@
+class CheckSession < ApplicationRecord
+end

@@ -1,4 +1,4 @@
-class Apis::Login::V1::UsersController < ApplicationController
+class Apis::Users::V1::UsersController < ApplicationController
         def index
             @users = []
             User.all.each do |user|
@@ -13,8 +13,6 @@ class Apis::Login::V1::UsersController < ApplicationController
 
         def create
             @user =  User.new(user_params)
-
-            byebug
       #     logger.debug @product.errors.full_messages
           if @user.save
             head 200 

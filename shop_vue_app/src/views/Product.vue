@@ -109,6 +109,7 @@ export default {
         {
           product_id: this.product.id,
           quantity: this.quantity,
+          check_session: sessionStorage.length,
           user_id: 1,
           headers: {
             origin: "http://localhost:3000",

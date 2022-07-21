@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   end
 
   resources :products, only:[:index, :show, :new, :create]
-  resources :order_items, only:[:create, :destroy, :update]
+  resources :order, only:[:index, :show, :new, :create]
+  resources :order_items, only:[:create, :destroy, :update,:show]
   
    
   resource :baskets, only:[:order, :show, :create]
@@ -35,15 +36,19 @@ Rails.application.routes.draw do
         resources :basket
         resources :discounts
         resources :orders
+        resources :check_sessions
       end
     end
   end
 
   namespace :apis do
-    namespace :login do
+    namespace :users do
       namespace :v1 do
-        resources :login
-        resources :users
+        resource :users, controller: "users", only: [:create]
+        resource :registrations, controller: "registrations", only: [:create]
+        resource :sessions, controller: "sessions", only: [:create]
+        resource :login
+        
       end
     end
   end

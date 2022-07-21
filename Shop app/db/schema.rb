@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_04_061448) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_14_121639) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,6 +39,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_04_061448) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "check_sessions", force: :cascade do |t|
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "discounts", force: :cascade do |t|
     t.string "name"
     t.string "code"
@@ -57,6 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_04_061448) do
     t.datetime "updated_at", null: false
     t.string "user_id"
     t.string "discount_percentage"
+    t.integer "check_session"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -66,7 +73,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_04_061448) do
     t.datetime "updated_at", null: false
     t.integer "discount_id"
     t.string "guid"
-    t.string "user"
+    t.integer "user"
   end
 
   create_table "products", force: :cascade do |t|
