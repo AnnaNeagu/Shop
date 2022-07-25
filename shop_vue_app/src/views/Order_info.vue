@@ -50,12 +50,9 @@
                 <h5><b>Order details</b></h5>
                 <div>
                   <b> GUID {{ order.guid }} </b>
-
                   <p style="margin-bottom: 30px">
                     <b> Time {{ order.time }} </b>
                   </p>
-                  <!-- <b><%= current_order.order_items.size%> Items</b> </p> -->
-
                   <hr />
                   <div class="row">
                     <div class="col text-right">
@@ -78,11 +75,6 @@
                       </p>
                     </div>
                   </div>
-                  <!-- <% if @discount%>
-                     <button onclick="checkout(<%= (@discount * 100).round(0) %>)" class="btn">CHECKOUT</button> 
-                     <% else %>
-                     <button onclick="checkout()" class="btn">CHECKOUT</button> 
-                     <% end %> -->
                 </div>
               </div>
             </div>
@@ -96,45 +88,17 @@
 <script>
 export default {
   props: ["id"],
-  // {
-  //   order_item: Object,
-  //   order: Object,
-  //   id_p: Object,
-
-  // },
-
   data() {
-    // let keys = Object.keys(sessionStorage);
-    // console.log(keys);
-    // console.log(keys[0]);
-    // const emailRegex = RegExp(
-    //   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-    // );
-    // if (keys[0].match(emailRegex)) {
-    //   console.log("string");
-    // } else console.log("no");
-    // for (let key of keys) {
-    //   console.log(`${key}: ${sessionStorage.getItem(key)}`);
-    //   console.log(key);
-    // }
-
     return {
       order_items: [],
       order: {},
       quantity: "",
       keys: Object.keys(sessionStorage),
       position: "Select Option",
-      // emailRegex: RegExp(
-      //   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      // ),
     };
   },
 
   mounted() {
-    // fetch("http://localhost:3000/order/" + this.id + ".json")
-    //   .then((res) => res.json())
-    //   .then((data) => (this.order = data))
-    //   .catch((err) => console.log(err.message));
     fetch("http://localhost:3000/apis/products/v1/order/" + this.id)
       .then((res) => res.json())
       .then((data) => (this.order = data))

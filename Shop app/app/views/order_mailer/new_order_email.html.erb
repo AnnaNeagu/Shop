@@ -9,8 +9,9 @@
       </h2>
       <% discount = 0, total = 0, subtotal=0, guid=0, time=0 %>
       <% @order_item.each do |item|  %>
-      <% guid = item.order.guid %>
-      <% time = item.order.created_at.strftime(" %m/%d/%Y, %I:%M%p")%>
+     
+      <% guid = Order.find_by_id(item[:order_id]).guid %>
+      <% time = Order.find_by_id(item[:order_id]).created_at.strftime(" %m/%d/%Y, %I:%M%p")%>
       <%end%>
       <p> 
          Order details 
@@ -30,7 +31,9 @@
          </tr>
       </table>
       <% @order_item.each do |item|  %>
-      <% product = Product.find_by_id(item.product_id)%>
+       
+      <% product = Product.find_by_id(item[:id])%>
+      
       <table>
          <tr >
             <td colspan="3">----------------------------------------------------------</td>
@@ -40,22 +43,22 @@
             <td>
                <p style = "margin-left:50px"> </p>
             </td>
-            <td> <%= item.unit_price %> RON</a>  </td>
+            <td> <%= product.price %> RON</a>  </td>
          </tr>
          <tr>
-            <td> x <%= item.quantity %> </td>
+            <td> x <%= item[:quantity] %> </td>
             <td>
                <p style = "margin-left:50px"> </p>
             </td>
-            <td>  <%= item.total %> RON </td>
+            <td>  <%= item[:total] %> RON </td>
            
          </tr>
-          <%total =  item.order.total %>  
-         <% if item.order.discount.nil? %>
+          <%total =  Order.find_by_id(item[:order_id]).total %>  
+         <% if Order.find_by_id(item[:order_id]).discount.nil? %>
          <%else%>
-         <% discount =  item.order.discount.name %>
+         <% discount =  Order.find_by_id(item[:order_id]).discount.name %>
          <%end%>
-         <% subtotal=item.order.subtotal %>
+         <% subtotal=Order.find_by_id(item[:order_id]).subtotal %>
          <% end %>
          <%# <tr>
             <td>

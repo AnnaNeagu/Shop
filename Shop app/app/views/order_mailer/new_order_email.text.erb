@@ -6,20 +6,21 @@ Order Details:
   
      <% discount = 0, total = 0, subtotal=0 %>
      <% @order_item.each do |item|  %>
-     <% product = Product.find_by_id(item.product_id)%>
+     <% product = Product.find_by_id(item[:id])%>
      <%= product.name %> 
-          Price:<%= item.unit_price %> RON
-          Quantity:<%= item.quantity %> 
-          Total price:<%= item.total %> RON
-    <%total =  item.order.total %> 
+   
+          Price:<%= product.price %> RON
+          Quantity:<%= item[:quantity] %> 
+          Total price:<%= item[:total] %> RON
+    <%total =  Order.find_by_id(item[:order_id]).total %> 
     <%# <% discount = item.discount_percentage %>  
-    <% if item.order.discount.nil? %>
+    <% if Order.find_by_id(item[:order_id]).discount.nil? %>
     
         <%else%>
-        <% discount =  item.order.discount.name %>
+        <% discount =  Order.find_by_id(item[:order_id]).discount.name %>
             
             <%end %>
-      <%subtotal=item.order.subtotal%>
+      <%subtotal=Order.find_by_id(item[:order_id]).subtotal%>
 
     <% end %>
 

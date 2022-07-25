@@ -13,7 +13,6 @@
                 </div>
               </div>
               <div v-for="order_item in order_items" :key="order_item.order_id">
-                <!-- <% @order_items.each do |item| %> -->
                 <div class="row border-top border-bottom">
                   <div class="row main align-items-center">
                     <div class="col">
@@ -72,16 +71,12 @@
                       </p>
                     </div>
                   </div>
-                  <!-- <% if @discount%>
-                     <button onclick="checkout(<%= (@discount * 100).round(0) %>)" class="btn">CHECKOUT</button> 
-                     <% else %>
-                     <button onclick="checkout()" class="btn">CHECKOUT</button> 
-                     <% end %> -->
+
                   <h1 v-if="email_user !== NULL">
                     <a
                       style="margin-top: 20px"
                       @click="add_user(id_user)"
-                      href="/orders"
+                      href="/"
                       class="btn btn-outline-dark"
                     >
                       CHECKOUT</a
@@ -174,7 +169,7 @@ export default {
       const res = await axios.put(
         "http://localhost:3000/apis/products/v1/order/" + id_user,
         {
-          user: id_user,
+          user_id: id_user,
           headers: {
             origin: "http://localhost:3000",
           },

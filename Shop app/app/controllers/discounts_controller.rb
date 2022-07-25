@@ -1,5 +1,4 @@
 class DiscountsController < ApplicationController
-    
     def update
         discount = Discount.where(code: discount_param[:code])
       
@@ -14,11 +13,8 @@ class DiscountsController < ApplicationController
            end
           # byebug
         else
-          flash[:notice] = "Discount code is invalid! v2"
-
-          
+          flash[:notice] = "Discount code is invalid! v2"       
         end
-        # byebug
       end
     
       private

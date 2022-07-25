@@ -1,6 +1,7 @@
 
 class Apis::Products::V1::DiscountsController < ApplicationController
- 
+ def index
+ end
     def update
       @order = Order.last(session[:order_id])
       discount = Discount.where(code: discount_param[:code])

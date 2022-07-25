@@ -54,25 +54,6 @@ export default {
   },
   data() {
     let keys = Object.keys(sessionStorage);
-    // console.log(keys);
-    // console.log(keys[0]);
-
-    // if (keys[0] === "ana@test.com") {
-    //   console.log("string");
-    // } else console.log("no");
-
-    // const emailRegex = RegExp(
-    //   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-    // );
-    // if (keys[0].match(emailRegex)) {
-    //   console.log("string");
-    // } else console.log("no");
-
-    // for (let key of keys) {
-    //   console.log(`${key}: ${sessionStorage.getItem(key)}`);
-    //   console.log(key);
-    // }
-
     return {
       keys: Object.keys(sessionStorage),
       email: keys[0],

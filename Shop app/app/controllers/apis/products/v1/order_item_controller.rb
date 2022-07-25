@@ -3,6 +3,7 @@ class Apis::Products::V1::OrderItemController < ApplicationController
     @order = orderfunction
     @order_item = @order.order_items.new(order_params)
     @order.guid = SecureRandom.uuid
+    @order.user = @order_item.user_id
     if @order.save
         session[:order_id] = @user_id
         head 200 
@@ -39,6 +40,6 @@ end
 
     private 
     def order_params
-        params.require(:order_item).permit(:product_id, :quantity, :user_id,:order_id,:check_session)
+        params.require(:order_item).permit(:product_id, :quantity, :user_id, :order_id, :check_session)
     end
 end

@@ -16,6 +16,7 @@ class Apis::Products::V1::OrderController < ApplicationController
   end
 
 
+
   def show
     @order = Order.find(params[:id])
     array = []
@@ -36,8 +37,6 @@ class Apis::Products::V1::OrderController < ApplicationController
     
     render json: {
 
-      
-
       id: @order.id,
       products: array,
       subtotal: @order.subtotal,
@@ -46,17 +45,21 @@ class Apis::Products::V1::OrderController < ApplicationController
       time:time,
       guid: @order.guid 
     }
-
   end
-
-
 
   def update
     @order = Order.last(session[:order_id])
+    @order_items = []
+
+    @order.order_items.each do |order_item|
+      @order_items << get_formatted_order_item(order_item)
+     end 
+     OrderMailer.with(order_item: @order_items).new_order_email.deliver_later
     if @order.update(order_user)
+     byebug
+      
       head 200
     end
-
   end
 
   private
@@ -92,6 +95,7 @@ class Apis::Products::V1::OrderController < ApplicationController
            order_id: order_item.order_id,
            total: order_item.total,
            subtotal: order_item.order.subtotal,
+           user_id: order_item.user_id,
           
         }     
   end 
