@@ -47,8 +47,6 @@
                 <option value="9">9</option>
                 <option value="10">10</option>
               </select>
-              <!-- <span> {{ quantity }} </span> -->
-
               <br />
               <button type="button" class="btn btn-dark" @click="submitForm">
                 Add to basket
@@ -69,6 +67,10 @@ export default {
     return {
       product: {},
       quantity: "",
+      id_user: document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("id="))
+        ?.split("=")[1],
     };
   },
   mounted() {
@@ -78,30 +80,11 @@ export default {
       .catch((err) => console.log(err.message));
   },
 
-  // methods: {
-  //   async fetchAProduct() {
-  //     try {
-  //       const res = await fetch(
-  //         "http://localhost:3000/products/" + this.id + ".json"
-  //       );
-  //       console.log(this.product);
-  //       const data = await res.json();
-  //       return data;
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   },
-  // },
-
   methods: {
-    // addToBasket() {
-    //   this.$emit("add-to-cart", this.product.id, 1);
-    // },
     async submitForm() {
       console.log(this.product.id);
       console.log(this.quantity);
-      // const mode = sessionStorage.setItem(this.product_id, this.quantity);
-      // console.log(mode);
+      console.log("Aici este" + this.id_user);
       sessionStorage.setItem(this.product.id, this.quantity);
       console.log(sessionStorage);
       const res = await axios.post(
@@ -110,14 +93,12 @@ export default {
           product_id: this.product.id,
           quantity: this.quantity,
           check_session: sessionStorage.length,
-          user_id: 11,
+          user_id: this.id_user,
           headers: {
             origin: "http://localhost:3000",
           },
         }
       );
-      // sessionStorage.setItem("test", 1);
-      // alert(sessionStorage.getItem("test")); // after refresh: 1
       console.log(res);
       if (res.status == 200) {
         this.$router.replace({ name: "Basket" });

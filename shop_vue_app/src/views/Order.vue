@@ -47,7 +47,6 @@
                   <p style="margin-bottom: 30px">
                     <b> Time {{ order.time }} </b>
                   </p>
-                  <!-- <b><%= current_order.order_items.size%> Items</b> </p> -->
 
                   <hr />
                   <div class="row">

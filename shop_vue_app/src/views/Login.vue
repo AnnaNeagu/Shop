@@ -156,13 +156,13 @@ export default {
               .split("; ")
               .find((row) => row.startsWith("id="))
               ?.split("=")[1]
-          ); // get the value of id from cookies
+          );
           console.log(
             document.cookie
               .split("; ")
               .find((row) => row.startsWith("email="))
               ?.split("=")[1]
-          ); // get the value of email from cookies
+          );
           this.$swal.fire({
             position: "top-end",
             icon: "success",

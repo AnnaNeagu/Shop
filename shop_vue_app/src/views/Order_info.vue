@@ -17,15 +17,12 @@
                 v-for="order_items in order.products"
                 :key="order_items.order_id"
               >
-                <!-- <% @order_items.each do |item| %> -->
                 <div class="row border-top border-bottom">
                   <div class="row main align-items-center">
                     <div class="col">
                       <div class="row text-muted">
                         {{ order_items.name }} X quantity
                         {{ order_items.quantity }}
-                        <!-- <h3>{{ order.total }}</h3> -->
-                        <!-- <h5>quantity x {{ order_item.quantity }}</h5> -->
                       </div>
                     </div>
                     <div class="col">

@@ -8,15 +8,14 @@
   <div class="topnav">
     <router-link :to="{ name: 'Products' }"> <b>Products</b> </router-link>
 
-    <h1 v-if="status_admin == 'true'">
+    <div v-if="status_admin == 'true'">
       <router-link :to="{ name: 'NewProduct' }">
         <b>New Product </b></router-link
       >
-    </h1>
-    <h1 v-if="email_user != null">
+    </div>
+    <s v-if="email_user != null">
       <router-link :to="{ name: 'Basket' }"><b> Basket </b></router-link>
-    </h1>
-    <!-- <p>ana</p> -->
+    </s>
     <h1 v-if="email_user !== NULL">
       <a style="float: right; color: #04aa6d" @click="logout()"
         ><b>Logout</b></a
@@ -34,22 +33,15 @@
       <router-link :to="{ name: 'SignUp' }"> <b>Sign Up </b> </router-link>
     </p>
   </div>
-
-  <!-- <div v-for="check_session in check_sessions" :key="check_session.id">
-    <p style="color: #52b788">{{ (alex = check_session.id) }}</p>
-  </div> -->
   <router-view />
 </template>
 <script>
 import axios from "axios";
 export default {
-  // name: "Login",
   props: {
     id_p: Object,
   },
   params: {
-    // pass: "",
-
     check_session: Object,
   },
   data() {
@@ -69,7 +61,6 @@ export default {
         .split("; ")
         .find((row) => row.startsWith("admin="))
         ?.split("=")[1],
-
       check_sessions: [],
     };
   },
@@ -116,8 +107,6 @@ export default {
       document.cookie = "email" + "=; expires=Thu, 01-Jan-70 00:00:01 GMT;";
       document.cookie = "admin" + "=; expires=Thu, 01-Jan-70 00:00:01 GMT;";
       sessionStorage.clear();
-      // const output = document.getElementById("cookie-value");
-      // output.textContent = this.email_user;
       window.location.href = "/";
     },
     async setuser() {
